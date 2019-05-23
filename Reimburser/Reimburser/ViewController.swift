@@ -7,14 +7,22 @@
 //
 
 import UIKit
+import ViewAnimator
+import IJKMediaFramework
 
-class ViewController: UIViewController {
+class ViewController: BaseViewController {
 
+    private let player: IJKFFMoviePlayerController = {
+        let ijkView = IJKFFMoviePlayerController()
+        return ijkView
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        navigationItem.title = "001"
+        view.backgroundColor = UIColor.red00
     }
-
-
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.toastShow(type: .success)
+    }
 }
 
