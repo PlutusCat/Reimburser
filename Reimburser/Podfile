@@ -1,0 +1,28 @@
+platform :ios, '11.0'
+
+target 'Reimburser' do
+  use_frameworks!
+  inhibit_all_warnings!
+
+  # Pods for Reimburser
+  pod 'SnapKit'
+  pod 'Alamofire'
+  pod 'Kingfisher'
+  pod 'RxRealm'
+  pod 'SwiftyJSON'
+  pod 'SwiftySound'
+  pod 'IQKeyboardManagerSwift'
+  pod 'ViewAnimator'
+  pod 'WechatOpenSDK'
+
+  target 'ReimburserTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'ReimburserUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
