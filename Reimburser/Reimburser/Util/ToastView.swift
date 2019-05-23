@@ -17,6 +17,8 @@ public enum ToastType {
 }
 
 class ToastView: UIView {
+    let animations = [AnimationType.from(direction: .bottom, offset: 40),
+                      AnimationType.zoom(scale: 0.96)]
     private lazy var title: UILabel = {
         let label = UILabel()
         label.text = "这里是标题"
@@ -26,6 +28,7 @@ class ToastView: UIView {
     }()
     private lazy var icon: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.yellow00
         return imageView
     }()
 
@@ -47,6 +50,7 @@ class ToastView: UIView {
         layer.borderWidth = 2.0
         layer.borderColor = color.cgColor
         layer.cornerRadius = 10
+        layer.masksToBounds = true
         backgroundColor = .white
         addSubview(icon)
         addSubview(title)
@@ -60,7 +64,7 @@ class ToastView: UIView {
         super.layoutSubviews()
         icon.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: 40, height: 40))
-            make.left.equalToSuperview()
+            make.left.equalToSuperview().offset(8)
             make.centerY.equalTo(title)
         }
         title.snp.makeConstraints { (make) in
@@ -71,31 +75,58 @@ class ToastView: UIView {
 }
 
 extension UIView {
-    public func toastShow(type: ToastType) {
+    func searchToast() -> ToastView? {
+        var array = [ToastView]()
         for item in self.subviews.enumerated() {
             if item.element.isKind(of: ToastView.self) {
-                self.toastDiss()
+                array.append(item.element as! ToastView)
             }
         }
+        if let root = UIApplication.shared.keyWindow {
+            for item in root.subviews.enumerated() {
+                if item.element.isKind(of: ToastView.self) {
+                    array.append(item.element as! ToastView)
+                }
+            }
+        }
+        if array.count > 1 {
+            for i in 0..<array.count-1 {
+                array[i].removeFromSuperview()
+            }
+            return array.last
+        }
+        return array.last
+    }
+    public func toastShow(type: ToastType) {
+        self.toastDiss()
         let toast = ToastView(type: type)
         toast.centerX = self.centerX
         self.addSubview(toast)
-        let from = AnimationType.from(direction: .bottom, offset: 20)
-        UIView.animate(views: [toast], animations: [from])
+        UIView.animate(views: [toast],
+                       animations: toast.animations,
+                       delay: 0.1)
     }
     public func toastDiss() {
-        for item in self.subviews.enumerated() {
-            if item.element.isKind(of: ToastView.self) {
-                let from = AnimationType.from(direction: .bottom, offset: 20)
-                UIView.animate(views: [item.element],
-                               animations: [from],
-                               reversed: true,
-                               initialAlpha: 1.0,
-                               finalAlpha: 0.0,
-                               completion: {
-                    item.element.removeFromSuperview()
-                })
-            }
+        if let toast = self.searchToast() {
+            UIView.animate(views: [toast],
+                           animations: toast.animations,
+                           reversed: true,
+                           initialAlpha: 1.0,
+                           finalAlpha: 0.0,
+                           completion: {
+                            toast.removeFromSuperview()
+            })
+        }
+    }
+    public func toastOnWindow(type: ToastType) {
+        self.toastDiss()
+        if let window = UIApplication.shared.keyWindow {
+            let toast = ToastView(type: type)
+            toast.centerX = window.centerX
+            window.addSubview(toast)
+            UIView.animate(views: [toast],
+                           animations: toast.animations,
+                           delay: 0.1)
         }
     }
 }

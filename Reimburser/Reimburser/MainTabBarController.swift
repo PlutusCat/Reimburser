@@ -24,12 +24,9 @@ class MainTabBarController: UITabBarController {
         addViewController(vc: TwoViewController(),
                           barIcon: "item02",
                           barTitle: "订单")
-//        addViewController(vc: HistoryViewController(),
-//                          barIcon: "item03",
-//                          barTitle: "面签")
-//        addViewController(vc: MyselfViewController(),
-//                          barIcon: "item04",
-//                          barTitle: "我的")
+        addViewController(vc: UserInfoController(),
+                          barIcon: "item02",
+                          barTitle: "我的")
     }
 
     private func addViewController(vc viewController: UIViewController,

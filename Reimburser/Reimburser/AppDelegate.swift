@@ -26,7 +26,7 @@ extension AppDelegate {
         window?.backgroundColor = .background
         window?.makeKeyAndVisible()
         let tabBarVC = MainTabBarController()
-        tabBarVC.selectedIndex = 0
+        tabBarVC.selectedIndex = 1
         window?.rootViewController = tabBarVC
     }
 }

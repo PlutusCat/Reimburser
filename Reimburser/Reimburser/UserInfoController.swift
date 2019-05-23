@@ -1,5 +1,5 @@
 //
-//  TwoViewController.swift
+//  UserInfoController.swift
 //  Reimburser
 //
 //  Created by PlutusCat on 2019/5/23.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class TwoViewController: BaseViewController {
+class UserInfoController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "002"
+        navigationItem.title = "我的"
     }
 
 }

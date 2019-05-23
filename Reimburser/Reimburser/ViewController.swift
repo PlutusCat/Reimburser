@@ -9,6 +9,7 @@
 import UIKit
 import ViewAnimator
 import IJKMediaFramework
+import SnapKit
 
 class ViewController: BaseViewController {
 
@@ -19,10 +20,20 @@ class ViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "001"
-        view.backgroundColor = UIColor.red00
+        let button = UIButton(type: .custom)
+        button.backgroundColor = UIColor.yellow
+        button.addTarget(self, action: #selector(add), for: .touchUpInside)
+        view.addSubview(button)
+        button.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 80, height: 30))
+            make.center.equalToSuperview()
+        }
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.toastShow(type: .success)
+    }
+    @objc func add() {
+        view.toastDiss()
     }
 }
 
