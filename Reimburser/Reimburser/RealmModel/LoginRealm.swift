@@ -5,44 +5,6 @@
 //  Created by cindata_mac on 2019/3/28.
 //  Copyright © 2019 FacialAudit. All rights reserved.
 //
-/**
- {
- "code": 1,
- "msg": "OK",
- "data": {
- "shareEnvelope": {
- "envelopeOrder": {
- "id": 230,
- "recordSn": "321f2a9391064b34b11175768f6d1c19",
- "fromUid": "5f2c4be1172f8812006bba26466ca98d",
- "fromDisplay": 1,
- "fromStatus": 1,
- "toDisplay": 1,
- "toStatus": 0,
- "money": 1,
- "createTime": 1557210852516,
- "name": "系统提供的分享红包",
- "greetings": "",
- "description": "系统个月用户2d988ea9a1884167b6810cac2487ca11提供的分享红包",
- "type": 2,
- "indirectUser": "2d988ea9a1884167b6810cac2487ca11"
- }
- },
- "userInfo": {
- "id": "2d988ea9a1884167b6810cac2487ca11",
- "account": "18893873123",
- "phone": "18893873123",
- "role": "[0]",
- "insertTime": 1557209624000,
- "updateTime": 1557209624000,
- "registrationType": 1
- },
- "Planet-Access-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1SWQiOiIyZDk4OGVhOWExODg0MTY3YjY4MTBjYWMyNDg3Y2ExMSIsImV4cCI6MTU1NzIxNjAyMX0.nzOfUJnKvKS3_lGxVaL0ThEXmGcFyHAqZAPw1O35ZOY",
- "toBeReceiveEnvelopeOrder": []
- },
- "success": true
- }
- */
 
 import UIKit
 import RxRealm
@@ -64,9 +26,20 @@ class LoginRealm: Object {
             return this
         }
         this.owner = BaseModel.from(dictionary: json)
+        if let success = json["success"]?.stringValue {
+            this.success = success
+        }
         if let dataDict = json["data"]?.dictionaryValue, dataDict.isEmpty == false {
             if let shareEnvelope = dataDict["shareEnvelope"]?.dictionaryValue {
                 let value = ShareEnvelope.from(json: shareEnvelope)
+                this.data.append(value)
+            }
+            if let userInfo = dataDict["userInfo"]?.dictionaryValue {
+                let value = UserInfo.from(json: userInfo)
+                this.data.append(value)
+            }
+            if let token = dataDict["Planet-Access-Token"]?.stringValue {
+                this.token = token
             }
         }
         return this
@@ -90,6 +63,19 @@ class ShareEnvelope: Object {
 
 class EnvelopeOrder: Object {
     @objc dynamic var id = ""
+    @objc dynamic var recordSn = ""
+    @objc dynamic var fromUid = ""
+    @objc dynamic var fromDisplay = ""
+    @objc dynamic var fromStatus = ""
+    @objc dynamic var toDisplay = ""
+    @objc dynamic var toStatus = ""
+    @objc dynamic var money = ""
+    @objc dynamic var createTime = ""
+    @objc dynamic var name = ""
+    @objc dynamic var greetings = ""
+    @objc dynamic var _description = ""
+    @objc dynamic var type = ""
+    @objc dynamic var indirectUser = ""
 
     class func from(json: [String : SwiftyJSON.JSON]) -> EnvelopeOrder {
         let this = EnvelopeOrder()
@@ -99,12 +85,86 @@ class EnvelopeOrder: Object {
         if let id = json["id"]?.stringValue {
             this.id = id
         }
+        if let recordSn = json["recordSn"]?.stringValue {
+            this.recordSn = recordSn
+        }
+        if let fromUid = json["fromUid"]?.stringValue {
+            this.fromUid = fromUid
+        }
+        if let fromDisplay = json["fromDisplay"]?.stringValue {
+            this.fromDisplay = fromDisplay
+        }
+        if let fromStatus = json["fromStatus"]?.stringValue {
+            this.fromStatus = fromStatus
+        }
+        if let toDisplay = json["toDisplay"]?.stringValue {
+            this.toDisplay = toDisplay
+        }
+        if let toStatus = json["toStatus"]?.stringValue {
+            this.toStatus = toStatus
+        }
+        if let money = json["money"]?.stringValue {
+            this.money = money
+        }
+        if let createTime = json["createTime"]?.stringValue {
+            this.createTime = createTime
+        }
+        if let name = json["name"]?.stringValue {
+            this.name = name
+        }
+        if let greetings = json["greetings"]?.stringValue {
+            this.greetings = greetings
+        }
+        if let description = json["description"]?.stringValue {
+            this._description = description
+        }
+        if let type = json["type"]?.stringValue {
+            this.type = type
+        }
+        if let indirectUser = json["indirectUser"]?.stringValue {
+            this.indirectUser = indirectUser
+        }
         return this
     }
 }
 
 class UserInfo: Object {
+    @objc dynamic var id = ""
+    @objc dynamic var account = ""
+    @objc dynamic var phone = ""
+    @objc dynamic var role = ""
+    @objc dynamic var insertTime = ""
+    @objc dynamic var updateTime = ""
+    @objc dynamic var registrationType = ""
     
+    class func from(json: [String : SwiftyJSON.JSON]) -> UserInfo {
+        let this = UserInfo()
+        if json.isEmpty {
+            return this
+        }
+        if let id = json["id"]?.stringValue {
+            this.id = id
+        }
+        if let account = json["account"]?.stringValue {
+            this.account = account
+        }
+        if let phone = json["phone"]?.stringValue {
+            this.phone = phone
+        }
+        if let role = json["role"]?.stringValue {
+            this.role = role
+        }
+        if let insertTime = json["insertTime"]?.stringValue {
+            this.insertTime = insertTime
+        }
+        if let updateTime = json["updateTime"]?.stringValue {
+            this.updateTime = updateTime
+        }
+        if let registrationType = json["registrationType"]?.stringValue {
+            this.registrationType = registrationType
+        }
+        return this
+    }
 }
 
 //extension LoginRealm {
