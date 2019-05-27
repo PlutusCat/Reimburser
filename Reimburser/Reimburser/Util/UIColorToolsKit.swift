@@ -26,10 +26,10 @@ extension UIColor {
     /// 主色调
     open class var main: UIColor { return UIColor(hex: "#F6572D")}
     /// 背景色 eeeeee 243
-//    open class var background: UIColor { return UIColor(hex: "#f4f4f4")}
-    open class var background: UIColor {
-        return UIColor(red: 243, green: 243, blue: 243)
-    }
+    open class var background: UIColor { return UIColor(hex: "#f1f1f1")}
+//    open class var background: UIColor {
+//        return UIColor(red: 243, green: 243, blue: 243)
+//    }
     /// 文字黑
     open class var textBack: UIColor { return UIColor(hex: "#2A2A2A")}
     /// body 灰
