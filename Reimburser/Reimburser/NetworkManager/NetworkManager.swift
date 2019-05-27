@@ -48,7 +48,7 @@ class NetworkManager: NSObject {
                 printm(JSON(paramet as Any))
                 printm("--- 返回的JSON ---")
                 printm(JSON(result))
-                let model = BaseModel.from(dictionary: JSON(result).dictionaryValue)
+//                let model = BaseModel.from(dictionary: JSON(result).dictionaryValue)
 //                if NetworkResult.isLoginFailure(code: model.code) {
 //                    printm("登陆状态失效，需要重新的登陆")
 //                    let tabBarVC = UIApplication.shared.keyWindow?.rootViewController

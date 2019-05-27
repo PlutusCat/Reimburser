@@ -17,17 +17,9 @@ extension API {
     open class var loginOut: String {
         return "/api/user/logout"
     }
-    /// 第三方授权
-    open class var opportunityList: String {
-        return "/api/user/login"
-    }
-    /// linkaccid
-    open class var linkaccid: String {
-        return "/bocAppOpportunity/getLinkaccid"
-    }
-    /// 订单确认
-    open class var sureAppOpportunity: String {
-        return "/bocAppOpportunity/sureAppOpportunity"
+    /// 视频列表
+    open class var videoList: String {
+        return "/api/video/list"
     }
 }
 

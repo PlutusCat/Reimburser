@@ -13,17 +13,16 @@ class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configPages()
     }
 
     private func configPages() {
-        addViewController(vc: ViewController(),
+        addViewController(vc: VideoViewController(),
                           barIcon: "item01",
-                          barTitle: "首页")
-        addViewController(vc: TwoViewController(),
+                          barTitle: "视频")
+        addViewController(vc: ReimbursViewController(),
                           barIcon: "item02",
-                          barTitle: "订单")
+                          barTitle: "上传")
         addViewController(vc: UserInfoController(),
                           barIcon: "item02",
                           barTitle: "我的")
