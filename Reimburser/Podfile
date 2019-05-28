@@ -14,6 +14,7 @@ target 'Reimburser' do
   pod 'IQKeyboardManagerSwift'
   pod 'ViewAnimator'
   pod 'WechatOpenSDK'
+  pod 'JPush'
 
   target 'ReimburserTests' do
     inherit! :search_paths

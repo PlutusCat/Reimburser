@@ -13,13 +13,13 @@ class ReimbursCollectionCell: UICollectionViewCell {
 
     private lazy var image: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = .white
         view.image = UIImage(named: "")
         return view
     }()
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = UIColor.red00
+        contentView.backgroundColor = .red00
         contentView.addSubview(image)
     }
 

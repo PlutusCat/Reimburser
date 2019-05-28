@@ -1,6 +1,9 @@
 PODS:
   - Alamofire (4.8.2)
   - IQKeyboardManagerSwift (6.3.0)
+  - JCore (2.0.1)
+  - JPush (3.2.0):
+    - JCore (< 3.0.0, >= 2.0.0)
   - Kingfisher (5.5.0)
   - Realm (3.15.0):
     - Realm/Headers (= 3.15.0)
@@ -20,6 +23,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - IQKeyboardManagerSwift
+  - JPush
   - Kingfisher
   - RxRealm
   - SnapKit
@@ -32,6 +36,8 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - IQKeyboardManagerSwift
+    - JCore
+    - JPush
     - Kingfisher
     - Realm
     - RealmSwift
@@ -46,6 +52,8 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
+  JCore: 8425fb3f85f1400f9bc8ccf8121cd5694a790f3b
+  JPush: 8459e7a709ad86f95884fcb49cbd57a6da24744e
   Kingfisher: 6fe5e67a90fd335e49b0f5c075ff55ac5ebedd94
   Realm: 9b834e1be6062f544805252c812348872dc5d4ed
   RealmSwift: 8a41886f8ab6efef9eb8df97de2f2bb911561a79
@@ -57,6 +65,6 @@ SPEC CHECKSUMS:
   ViewAnimator: 173932c659a43c5a15c665878750d92801ae2cf1
   WechatOpenSDK: 9b721089507c895d05f997408c30bb6e6f5f9b60
 
-PODFILE CHECKSUM: a9fc7492109f97532f7455892cef52d712fc9b2c
+PODFILE CHECKSUM: 8920b96728bcca70d9411796d711c4c26a9a43c8
 
 COCOAPODS: 1.7.0.rc.2

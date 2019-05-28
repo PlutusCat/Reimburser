@@ -94,6 +94,7 @@
 		6C33CEDB229BE5EF00D68FBE /* ReimbursCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReimbursCollectionCell.swift; sourceTree = "<group>"; };
 		6C33CEDD229BE61600D68FBE /* ReimbursCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReimbursCollectionView.swift; sourceTree = "<group>"; };
 		6C33CEDE229BE61600D68FBE /* ReimbursViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReimbursViewController.swift; sourceTree = "<group>"; };
+		6C33CEE5229D1F6800D68FBE /* Reimburser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Reimburser.entitlements; sourceTree = "<group>"; };
 		6CF202C0229649B200A6EE30 /* Reimburser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reimburser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CF202C3229649B200A6EE30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6CF202CA229649B300A6EE30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -242,6 +243,7 @@
 		6CF202C2229649B200A6EE30 /* Reimburser */ = {
 			isa = PBXGroup;
 			children = (
+				6C33CEE5229D1F6800D68FBE /* Reimburser.entitlements */,
 				6CF202C3229649B200A6EE30 /* AppDelegate.swift */,
 				6CF2031622964CF900A6EE30 /* MainTabBarController.swift */,
 				6CF2031C22964E0000A6EE30 /* BaseViewController.swift */,
@@ -433,6 +435,14 @@
 					6CF202BF229649B200A6EE30 = {
 						CreatedOnToolsVersion = 10.2.1;
 						LastSwiftMigration = 1020;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					6CF202D3229649B300A6EE30 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -777,8 +787,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Reimburser/Reimburser.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Q863MX6HLM;
+				DEVELOPMENT_TEAM = G6QEWYGP8F;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -789,7 +800,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.PlutusCat.Reimburser;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zs.APPayment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reimburser/Info/Reimburser-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -804,8 +815,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Reimburser/Reimburser.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Q863MX6HLM;
+				DEVELOPMENT_TEAM = G6QEWYGP8F;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -816,7 +828,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.PlutusCat.Reimburser;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zs.APPayment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reimburser/Info/Reimburser-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

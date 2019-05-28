@@ -3,3 +3,7 @@
 //
 
 #import "WXApi.h"
+
+#import "JPUSHService.h"
+#import <UserNotifications/UserNotifications.h>
+#import <AdSupport/AdSupport.h>
