@@ -38,14 +38,15 @@ class NetworkManager: NSObject {
                                         parameters: paramet,
                                         encoding: JSONEncoding.default)
             .responseJSON { (response) in
-                guard let result = response.result.value else {
-                    errorback(response.result.error!)
-                    return
-                }
                 printm("--- 请求的地址 ---")
                 printm(url)
                 printm("--- 请求的JSON ---")
                 printm(JSON(paramet as Any))
+                guard let result = response.result.value else {
+                    errorback(response.result.error!)
+                    printm("--- 请求出错 ---")
+                    return
+                }
                 printm("--- 返回的JSON ---")
                 printm(JSON(result))
 //                let model = BaseModel.from(dictionary: JSON(result).dictionaryValue)

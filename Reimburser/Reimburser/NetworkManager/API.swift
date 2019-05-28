@@ -26,7 +26,7 @@ extension API {
 class API {
     public class func main() -> String {
         #if DEBUG
-        return "http://e60e71a6.ngrok.io/planet"
+        return "http://5e325e4b.ngrok.io/planet"
         #else
         return "https://"
         #endif

@@ -16,8 +16,8 @@ class LoginRealm: Object {
     @objc dynamic var owner: BaseModel?
     @objc dynamic var token = ""
     @objc dynamic var success = ""
-    dynamic var data: List<Object>!
-    
+    dynamic var data: UserData!
+
     override class func primaryKey() -> String? { return "id" }
     
     class func from(json: [String : SwiftyJSON.JSON]) -> LoginRealm {
@@ -30,17 +30,29 @@ class LoginRealm: Object {
             this.success = success
         }
         if let dataDict = json["data"]?.dictionaryValue, dataDict.isEmpty == false {
-            if let shareEnvelope = dataDict["shareEnvelope"]?.dictionaryValue {
-                let value = ShareEnvelope.from(json: shareEnvelope)
-                this.data.append(value)
-            }
-            if let userInfo = dataDict["userInfo"]?.dictionaryValue {
-                let value = UserInfo.from(json: userInfo)
-                this.data.append(value)
-            }
+            this.data = UserData.from(json: dataDict)
             if let token = dataDict["Planet-Access-Token"]?.stringValue {
                 this.token = token
             }
+        }
+        return this
+    }
+}
+
+class UserData: Object {
+    dynamic var shareEnvelope: ShareEnvelope!
+    dynamic var userInfo: UserInfo!
+
+    class func from(json: [String : SwiftyJSON.JSON]) -> UserData {
+        let this = UserData()
+        if json.isEmpty {
+            return this
+        }
+        if let shareEnvelope = json["shareEnvelope"]?.dictionaryValue {
+            this.shareEnvelope = ShareEnvelope.from(json: shareEnvelope)
+        }
+        if let userInfo = json["userInfo"]?.dictionaryValue {
+            this.userInfo = UserInfo.from(json: userInfo)
         }
         return this
     }

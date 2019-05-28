@@ -24,6 +24,7 @@
 		6C33CEDC229BE5EF00D68FBE /* ReimbursCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C33CEDB229BE5EF00D68FBE /* ReimbursCollectionCell.swift */; };
 		6C33CEDF229BE61700D68FBE /* ReimbursCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C33CEDD229BE61600D68FBE /* ReimbursCollectionView.swift */; };
 		6C33CEE0229BE61700D68FBE /* ReimbursViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C33CEDE229BE61600D68FBE /* ReimbursViewController.swift */; };
+		6C33CEE7229D39D000D68FBE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C33CEE6229D39D000D68FBE /* CoreTelephony.framework */; };
 		6CF202C4229649B200A6EE30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF202C3229649B200A6EE30 /* AppDelegate.swift */; };
 		6CF202CB229649B300A6EE30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CF202CA229649B300A6EE30 /* Assets.xcassets */; };
 		6CF202CE229649B300A6EE30 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CF202CC229649B300A6EE30 /* LaunchScreen.storyboard */; };
@@ -95,6 +96,7 @@
 		6C33CEDD229BE61600D68FBE /* ReimbursCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReimbursCollectionView.swift; sourceTree = "<group>"; };
 		6C33CEDE229BE61600D68FBE /* ReimbursViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReimbursViewController.swift; sourceTree = "<group>"; };
 		6C33CEE5229D1F6800D68FBE /* Reimburser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Reimburser.entitlements; sourceTree = "<group>"; };
+		6C33CEE6229D39D000D68FBE /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		6CF202C0229649B200A6EE30 /* Reimburser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reimburser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CF202C3229649B200A6EE30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6CF202CA229649B300A6EE30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C33CEE7229D39D000D68FBE /* CoreTelephony.framework in Frameworks */,
 				6CF2031522964C2D00A6EE30 /* AVKit.framework in Frameworks */,
 				6CF2031322964B5A00A6EE30 /* VideoToolbox.framework in Frameworks */,
 				6CF2031122964B5400A6EE30 /* QuartzCore.framework in Frameworks */,
@@ -326,6 +329,7 @@
 		B3B1F7BF8A3658C2242D550C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6C33CEE6229D39D000D68FBE /* CoreTelephony.framework */,
 				41CA1D482296E32B00B39004 /* IJKMediaFramework.framework */,
 				6CF2031422964C2C00A6EE30 /* AVKit.framework */,
 				6CF2031222964B5A00A6EE30 /* VideoToolbox.framework */,

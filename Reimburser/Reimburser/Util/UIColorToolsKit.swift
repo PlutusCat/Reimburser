@@ -24,7 +24,11 @@ extension UIColor {
     }
 
     /// 主色调
-    open class var main: UIColor { return UIColor(hex: "#F6572D")}
+//    open class var main: UIColor { return UIColor(hex: "#F6572D")}
+    open class var main: UIColor {
+        return UIColor(red: 188, green: 74, blue: 78, alpha: 1.0)
+    }
+
     /// 背景色 eeeeee 243
     open class var background: UIColor { return UIColor(hex: "#f1f1f1")}
 //    open class var background: UIColor {

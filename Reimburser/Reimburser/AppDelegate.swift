@@ -20,8 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = false
         jpush(launchOptions: launchOptions)
+        WXApi.registerApp("wxa8098c7baeb6356c")
         showHomeViewController()
         return true
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        return WXApi.handleOpen(url, delegate: self)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -69,24 +74,46 @@ extension AppDelegate {
                            channel: channel,
                            apsForProduction: isProduction,
                            advertisingIdentifier: advertisingId)
-        #if DEBUG
-        JPUSHService.setDebugMode()
-        #else
+//        #if DEBUG
+//        JPUSHService.setDebugMode()
+//        #else
+//        JPUSHService.setLogOFF()
+//        #endif
+
         JPUSHService.setLogOFF()
-        #endif
 
-        JPUSHService.setAlias("17600800656", completion: { (iResCode, iAlias, _) in
-            if iResCode == 0 {
-                printm("极光别名注册成功 iAlias=\(iAlias ?? "iAlias 为空")" )
-            }
-        }, seq: 000)
-
-        // 极光推送，接收自定义消息
-//        let defaultCenter = NotificationCenter.default
-//        defaultCenter.addObserver(self, selector: #selector(networkDidReceiveMessage), name: NSNotification.Name.jpfNetworkDidReceiveMessage, object: nil)
     }
 }
 
+extension AppDelegate: WXApiDelegate {
+    func onReq(_ req: BaseReq) {
+        if req.isKind(of: GetMessageFromWXReq.self) {
+            printm("微信请求App提供内容，App要调用sendResp:GetMessageFromWXResp返回给微信")
+        } else if req.isKind(of: ShowMessageFromWXReq.self) {
+            let temp = req as! ShowMessageFromWXReq
+            let msg = temp.message
+            printm("标题", msg.title)
+            printm("内容", msg.description)
+            printm("附带信息", msg.mediaObject)
+//            printm("缩略图", msg.thumbData?.length)
+        } else if req.isKind(of: LaunchFromWXReq.self) {
+            printm("从微信启动")
+        }
+    }
+    func onResp(_ resp: BaseResp) {
+        printm(resp.errCode)
+        switch resp.errCode {
+        case 0:
+            printm("用户同意了微信授权")
+        case -4:
+            printm("用户拒绝了微信授权")
+        case -2:
+            printm("用户取消了微信授权")
+        default:
+            break
+        }
+    }
+}
 
 extension AppDelegate: JPUSHRegisterDelegate {
 
@@ -95,6 +122,7 @@ extension AppDelegate: JPUSHRegisterDelegate {
         let userInfo = notification.request.content.userInfo
         if let trigger = notification.request.trigger, trigger.isKind(of: UNPushNotificationTrigger.self) {
             JPUSHService.handleRemoteNotification(userInfo)
+            printm("willPresent =", userInfo)
         } else {
             printm("willPresent -- 本地通知")
         }
@@ -107,8 +135,9 @@ extension AppDelegate: JPUSHRegisterDelegate {
         let userInfo = response.notification.request.content.userInfo
         if let trigger = response.notification.request.trigger, trigger.isKind(of: UNPushNotificationTrigger.self) {
             JPUSHService.handleRemoteNotification(userInfo)
+            printm("didReceive =", userInfo)
         } else {
-            printm("withCompletionHandler -- 本地通知")
+            printm("didReceive -- 本地通知")
         }
         completionHandler()
     }
