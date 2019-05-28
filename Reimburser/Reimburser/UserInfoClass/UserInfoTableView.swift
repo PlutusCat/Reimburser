@@ -14,6 +14,8 @@ class UserInfoTableView: UITableView {
         super.init(frame: frame, style: style)
         showsVerticalScrollIndicator = false
         backgroundColor = .background
+        sectionHeaderHeight = 8
+        sectionFooterHeight = 1
         register(UserInfoTableViewCell.self, forCellReuseIdentifier: UserInfoTableViewCell.id)
         addFooter()
     }

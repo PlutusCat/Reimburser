@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		2049A8FAE0BA5AC63DF19F44 /* Pods_Reimburser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2DFE8B15A6DCC37EB36232A /* Pods_Reimburser.framework */; };
 		28B4777214F7698D398B30F2 /* Pods_ReimburserUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F31832C034E0A48AAD5EBD9D /* Pods_ReimburserUITests.framework */; };
+		41B5140D229D7245009C04FB /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B5140C229D7245009C04FB /* VideoCollectionViewCell.swift */; };
+		41B5140F229D7550009C04FB /* VideosRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B5140E229D7550009C04FB /* VideosRealm.swift */; };
+		41B51411229D8E1B009C04FB /* UIImageView_kf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B51410229D8E1B009C04FB /* UIImageView_kf.swift */; };
 		41CA1D492296E32B00B39004 /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CA1D482296E32B00B39004 /* IJKMediaFramework.framework */; };
 		41CA1D4B2296EFC800B39004 /* UserInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CA1D4A2296EFC800B39004 /* UserInfoController.swift */; };
 		6C33CEC2229BAA4C00D68FBE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C33CEC0229BAA4C00D68FBE /* LoginViewController.swift */; };
@@ -80,6 +83,9 @@
 /* Begin PBXFileReference section */
 		17DD12FCF4D1A255C9BCABDD /* Pods-ReimburserUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReimburserUITests.debug.xcconfig"; path = "Target Support Files/Pods-ReimburserUITests/Pods-ReimburserUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		347BEE5A42CB5B3D7C8D92A0 /* Pods-ReimburserUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReimburserUITests.release.xcconfig"; path = "Target Support Files/Pods-ReimburserUITests/Pods-ReimburserUITests.release.xcconfig"; sourceTree = "<group>"; };
+		41B5140C229D7245009C04FB /* VideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCollectionViewCell.swift; sourceTree = "<group>"; };
+		41B5140E229D7550009C04FB /* VideosRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosRealm.swift; sourceTree = "<group>"; };
+		41B51410229D8E1B009C04FB /* UIImageView_kf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView_kf.swift; sourceTree = "<group>"; };
 		41CA1D482296E32B00B39004 /* IJKMediaFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IJKMediaFramework.framework; sourceTree = "<group>"; };
 		41CA1D4A2296EFC800B39004 /* UserInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoController.swift; sourceTree = "<group>"; };
 		6C33CEC0229BAA4C00D68FBE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -207,6 +213,7 @@
 			children = (
 				6C33CED1229BD66600D68FBE /* VideoViewController.swift */,
 				6C33CED3229BD6E900D68FBE /* VideoCollectionView.swift */,
+				41B5140C229D7245009C04FB /* VideoCollectionViewCell.swift */,
 			);
 			path = VideoClass;
 			sourceTree = "<group>";
@@ -302,6 +309,7 @@
 				6CF2031E22964E2A00A6EE30 /* Layout.swift */,
 				6C33CEC6229BADCB00D68FBE /* String+TypeConversions.swift */,
 				6C33CEC4229BADC100D68FBE /* Realm+Manager.swift */,
+				41B51410229D8E1B009C04FB /* UIImageView_kf.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -322,6 +330,7 @@
 				6CF203342296A1CB00A6EE30 /* PrimaryKey.swift */,
 				6CF203302296A0FF00A6EE30 /* BaseModel.swift */,
 				6CF203322296A17800A6EE30 /* LoginRealm.swift */,
+				41B5140E229D7550009C04FB /* VideosRealm.swift */,
 			);
 			path = RealmModel;
 			sourceTree = "<group>";
@@ -609,7 +618,10 @@
 				6C33CEC7229BADCB00D68FBE /* String+TypeConversions.swift in Sources */,
 				6CF2031B22964D7400A6EE30 /* PrintUtil.swift in Sources */,
 				6C33CEC9229BAFAD00D68FBE /* UserInfoTableView.swift in Sources */,
+				41B5140F229D7550009C04FB /* VideosRealm.swift in Sources */,
 				6CF203352296A1CB00A6EE30 /* PrimaryKey.swift in Sources */,
+				41B5140D229D7245009C04FB /* VideoCollectionViewCell.swift in Sources */,
+				41B51411229D8E1B009C04FB /* UIImageView_kf.swift in Sources */,
 				6CF2031F22964E2A00A6EE30 /* Layout.swift in Sources */,
 				6C33CEE0229BE61700D68FBE /* ReimbursViewController.swift in Sources */,
 				6CF2032F22969FCC00A6EE30 /* API.swift in Sources */,
@@ -793,7 +805,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reimburser/Reimburser.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = G6QEWYGP8F;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -821,7 +833,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reimburser/Reimburser.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = G6QEWYGP8F;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

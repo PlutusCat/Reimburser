@@ -25,13 +25,13 @@ class ReimbursCollectionView: UICollectionView {
 }
 
 class ReimbursFlowLayout: UICollectionViewFlowLayout {
-    /// 间距
-    let columns = 5
+    
     override init() {
         super.init()
-        let w = UIScreen.main.bounds.width/5
-        itemSize = CGSize(width: w, height: w)
-
+        let w = UIScreen.main.bounds.width/4
+        itemSize = CGSize(width: w-3, height: 130)
+        minimumLineSpacing = 1
+        minimumInteritemSpacing = 1
         scrollDirection = .vertical
     }
 

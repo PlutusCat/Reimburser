@@ -13,6 +13,7 @@ import SwiftyJSON
 class BaseModel: Object {
     @objc dynamic var code = ""
     @objc dynamic var msg = ""
+    dynamic var success: Bool?
 
     @discardableResult
     class func from(dictionary: [String : SwiftyJSON.JSON]) -> BaseModel {
@@ -22,6 +23,9 @@ class BaseModel: Object {
         }
         if let msg = dictionary["msg"]?.stringValue {
             this.msg = msg
+        }
+        if let success = dictionary["success"]?.boolValue {
+            this.success = success
         }
         return this
     }

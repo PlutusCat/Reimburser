@@ -9,6 +9,15 @@
 import UIKit
 import SnapKit
 
+class Setitem {
+    var icon: String
+    var title: String
+    init(icon: String, title: String) {
+        self.icon = icon
+        self.title = title
+    }
+}
+
 class UserInfoTableViewCell: UITableViewCell {
 
     open class var id: String { return "UserInfoTableViewCell_ID" }
@@ -46,19 +55,24 @@ class UserInfoTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func set(model: Setitem) {
+        icon.image = UIImage(named: model.icon)
+        title.text = model.title
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
         icon.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 40, height: 40))
+            make.size.equalTo(CGSize(width: 20, height: 20))
             make.left.equalToSuperview().offset(16)
             make.centerY.equalToSuperview()
         }
         title.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview()
-            make.left.equalTo(icon.snp.right).offset(8)
+            make.left.equalTo(icon.snp.right).offset(16)
         }
         arrow.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 40, height: 40))
+            make.size.equalTo(CGSize(width: 16, height: 12))
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(16)
         }

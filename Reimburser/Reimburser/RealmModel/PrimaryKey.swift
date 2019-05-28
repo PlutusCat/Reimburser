@@ -10,5 +10,7 @@ import UIKit
 
 class PrimaryKey {}
 
-//LoginRealm_ID
+/// LoginRealm_ID
 var loginKey: String { return "LoginRealm_ID"}
+/// Videos_ID
+var videosKey: String { return "Videos_ID"}
