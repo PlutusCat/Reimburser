@@ -48,7 +48,6 @@ class ReimbursViewController: BaseViewController {
         headerView.snp.makeConstraints { (make) in
             make.top.equalTo(Layout.getNavigationBarHeight())
             make.left.right.equalToSuperview()
-            make.height.equalTo(UIScreen.main.bounds.width*0.24)
         }
         collection.snp.makeConstraints { (make) in
             make.top.equalTo(headerView.snp.bottom)
@@ -70,7 +69,16 @@ extension ReimbursViewController: UICollectionViewDelegate, UICollectionViewData
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
+        UIAlertController().actionSheet("上传发票照片", titles: ["拍照", "相册"], destructives: nil, callBack: { (index) in
+            switch index {
+            case 0:
+                printm("拍照")
+            case 1:
+                printm("相册选取")
+            default:
+                break
+            }
+        })
     }
 }
 
@@ -79,9 +87,25 @@ class ReimbursHeader: UIView {
         let image = UIImageView(image: UIImage(named: "banner"))
         return image
     }()
+
+    lazy var adIcon: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "icon_qmbx"))
+        return image
+    }()
+
+    private lazy var title: UILabel = {
+        let label = UILabel()
+        label.text = "上传票据种类"
+        label.font = UIFont.title03
+        label.textColor = UIColor.textBack
+        return label
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(banner)
+        addSubview(adIcon)
+        addSubview(title)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -91,7 +115,18 @@ class ReimbursHeader: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         banner.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+            make.left.top.right.equalToSuperview()
+            make.height.equalTo(Layout.screen.width*0.24)
+        }
+        adIcon.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 50, height: 40))
+            make.left.equalToSuperview().offset(16)
+            make.top.equalTo(banner.snp.bottom).offset(16)
+        }
+        title.snp.makeConstraints { (make) in
+            make.left.equalTo(adIcon)
+            make.top.equalTo(adIcon.snp.bottom).offset(20)
+            make.bottom.equalToSuperview().inset(10)
         }
     }
 }

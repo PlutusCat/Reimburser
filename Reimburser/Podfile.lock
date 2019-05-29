@@ -17,6 +17,7 @@ PODS:
   - SnapKit (5.0.0)
   - SwiftyJSON (5.0.0)
   - SwiftySound (1.1.0)
+  - Toast-Swift (5.0.0)
   - ViewAnimator (2.5.1)
   - WechatOpenSDK (1.8.4)
 
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - SnapKit
   - SwiftyJSON
   - SwiftySound
+  - Toast-Swift
   - ViewAnimator
   - WechatOpenSDK
 
@@ -46,6 +48,7 @@ SPEC REPOS:
     - SnapKit
     - SwiftyJSON
     - SwiftySound
+    - Toast-Swift
     - ViewAnimator
     - WechatOpenSDK
 
@@ -62,9 +65,10 @@ SPEC CHECKSUMS:
   SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   SwiftySound: eb46cc2399cf7d94f58c372f38216e15e0a6de3e
+  Toast-Swift: 36f4720243c8582c2be243a60a51e193c761f541
   ViewAnimator: 173932c659a43c5a15c665878750d92801ae2cf1
   WechatOpenSDK: 9b721089507c895d05f997408c30bb6e6f5f9b60
 
-PODFILE CHECKSUM: 8920b96728bcca70d9411796d711c4c26a9a43c8
+PODFILE CHECKSUM: 235804067e530a9acf39a62a36d7ab605899fde0
 
 COCOAPODS: 1.7.0.rc.2

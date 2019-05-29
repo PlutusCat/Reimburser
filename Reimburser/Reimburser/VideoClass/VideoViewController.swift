@@ -21,6 +21,11 @@ class VideoViewController: UICollectionViewController {
         return ijkView
     }()
     
+    private lazy var headerView: VideoHeaderView = {
+        let view = VideoHeaderView()
+        return view
+    }()
+    
     private var animations = [Animation]()
     
     override init(collectionViewLayout layout: UICollectionViewLayout) {
@@ -31,6 +36,9 @@ class VideoViewController: UICollectionViewController {
         animations.append(fromAn)
         collectionView.backgroundColor = .background
         collectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.id)
+        collectionView.register(VideoHeaderReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: VideoHeaderReusableView.id)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,7 +49,7 @@ class VideoViewController: UICollectionViewController {
         super.viewDidLoad()
         view.backgroundColor = .background
         navigationItem.title = "首页"
-
+        view.addSubview(headerView)
         getVideoList()
     }
 
@@ -77,9 +85,14 @@ class VideoViewController: UICollectionViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-//        collectionView.snp.makeConstraints { (make) in
-//            make.edges.equalToSuperview()
-//        }
+        collectionView.snp.makeConstraints { (make) in
+            make.top.equalTo(headerView.snp.bottom)
+            make.left.right.bottom.equalToSuperview()
+        }
+        headerView.snp.makeConstraints { (make) in
+            make.top.equalTo(Layout.getNavigationBarHeight())
+            make.left.right.equalToSuperview()
+        }
     }
 }
 
@@ -117,5 +130,41 @@ class VideosFlowLayout: UICollectionViewFlowLayout {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class VideoHeaderView: UIView {
+    lazy var banner: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "banner-Home"))
+        return image
+    }()
+
+    lazy var titleIcon: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "tab"))
+        return image
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(banner)
+        addSubview(titleIcon)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        banner.snp.makeConstraints { (make) in
+            make.left.top.right.equalToSuperview()
+            make.height.equalTo(Layout.screen.width*0.44)
+        }
+        titleIcon.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(banner.snp.bottom).offset(16)
+            make.size.equalTo(CGSize(width: 114, height: 15))
+            make.bottom.equalToSuperview().inset(8)
+        }
     }
 }
