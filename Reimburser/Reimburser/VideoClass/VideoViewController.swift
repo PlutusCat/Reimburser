@@ -27,7 +27,12 @@ class VideoViewController: UICollectionViewController {
         let view = VideoHeaderView()
         return view
     }()
-    
+
+    private var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(refreshAction), for: UIControl.Event.valueChanged)
+        return control
+    }()
     private var animations = [Animation]()
     private var pageNumber = 1
     private var pageSize = 1
@@ -52,7 +57,12 @@ class VideoViewController: UICollectionViewController {
         super.viewDidLoad()
         view.backgroundColor = .background
         navigationItem.title = "首页"
+        collectionView.refreshControl = refreshControl
         view.addSubview(headerView)
+        getVideoList()
+    }
+    
+    @objc func refreshAction(_ sender: UIRefreshControl) {
         getVideoList()
     }
 
@@ -82,8 +92,10 @@ class VideoViewController: UICollectionViewController {
                 } else {
                     printm("没有获取到 data 数据")
                 }
+                self.refreshControl.endRefreshing()
             }
         }) { (error) in
+            self.refreshControl.endRefreshing()
             printm("网络出现错误")
         }
     }
@@ -100,13 +112,15 @@ class VideoViewController: UICollectionViewController {
                     self.pageNumber += 1
                     let resultSize = self.records?.count ?? 0
                     var indexPaths = [IndexPath]()
-                    for i in 0..<records.count {
-                        let endIndex = resultSize + i
-                        let item = records[i]
-                        self.records?.insert(item, at: endIndex)
-                        let indexPath = IndexPath(item: endIndex,
-                                                  section: 0)
-                        indexPaths.append(indexPath)
+                    autoreleasepool{
+                        for i in 0..<records.count {
+                            let endIndex = resultSize + i
+                            let item = records[i]
+                            self.records?.insert(item, at: endIndex)
+                            let indexPath = IndexPath(item: endIndex,
+                                                      section: 0)
+                            indexPaths.append(indexPath)
+                        }
                     }
                     self.collectionView.insertItems(at: indexPaths)
                 } else {
@@ -204,6 +218,28 @@ class VideoHeaderView: UIView {
             make.top.equalTo(banner.snp.bottom).offset(16)
             make.size.equalTo(CGSize(width: 114, height: 15))
             make.bottom.equalToSuperview().inset(8)
+        }
+    }
+}
+
+class LoadMoreFooter: UIView {
+    private lazy var loadMore: UIButton = {
+        let button = UIButton()
+        button.setTitle("加载更多...", for: UIControl.State.normal)
+        return button
+    }()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = UIColor.red00
+        addSubview(loadMore)
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        loadMore.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
         }
     }
 }
