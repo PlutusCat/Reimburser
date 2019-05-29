@@ -29,8 +29,8 @@ class ReimbursFlowLayout: UICollectionViewFlowLayout {
     override init() {
         super.init()
         let w = UIScreen.main.bounds.width/4
-        itemSize = CGSize(width: w-3, height: 100)
-        minimumLineSpacing = 2
+        itemSize = CGSize(width: w-2, height: 100)
+        minimumLineSpacing = 3
         minimumInteritemSpacing = 1
         scrollDirection = .vertical
     }

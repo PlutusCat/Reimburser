@@ -12,10 +12,12 @@ import IJKMediaFramework
 import SnapKit
 import Alamofire
 import SwiftyJSON
+import RealmSwift
 
 class VideoViewController: UICollectionViewController {
 
     private var model: VideosRealm?
+    private var records: List<Records>?
     private let player: IJKFFMoviePlayerController = {
         let ijkView = IJKFFMoviePlayerController()
         return ijkView
@@ -27,7 +29,8 @@ class VideoViewController: UICollectionViewController {
     }()
     
     private var animations = [Animation]()
-    
+    private var pageNumber = 1
+    private var pageSize = 1
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
         let zoomAn = AnimationType.zoom(scale: 0.95)
@@ -60,26 +63,58 @@ class VideoViewController: UICollectionViewController {
         }, completion: nil)
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
     @objc func add() {
         view.toastDiss()
     }
 
     private func getVideoList() {
         let paramet: Parameters = ["current": 1,
-                                   "size": 10,
+                                   "size": pageSize,
                                    "label": []]
         NetworkManager.request(URLString: API.videoList, paramet: paramet, finishedCallback: { (result) in
             let json = JSON(result)
             let model = VideosRealm.from(json: json.dictionaryValue)
             DispatchQueue.main.async {
-                self.model = model
-                self.reload()
+                if let data = model.data {
+                    self.records = data.records
+                    self.pageNumber = 2
+                    self.reload()
+                } else {
+                    printm("没有获取到 data 数据")
+                }
             }
         }) { (error) in
-            
+            printm("网络出现错误")
+        }
+    }
+
+    private func getMoreVideoList() {
+        let paramet: Parameters = ["current": 1,
+                                   "size": pageSize,
+                                   "label": []]
+        NetworkManager.request(URLString: API.videoList, paramet: paramet, finishedCallback: { (result) in
+            let json = JSON(result)
+            let model = VideosRealm.from(json: json.dictionaryValue)
+            DispatchQueue.main.async {
+                if let records = model.data?.records {
+                    self.pageNumber += 1
+                    let resultSize = self.records?.count ?? 0
+                    var indexPaths = [IndexPath]()
+                    for i in 0..<records.count {
+                        let endIndex = resultSize + i
+                        let item = records[i]
+                        self.records?.insert(item, at: endIndex)
+                        let indexPath = IndexPath(item: endIndex,
+                                                  section: 0)
+                        indexPaths.append(indexPath)
+                    }
+                    self.collectionView.insertItems(at: indexPaths)
+                } else {
+                    printm("没有获取到更多 data 数据")
+                }
+            }
+        }) { (error) in
+            printm("网络出现错误")
         }
     }
 
@@ -90,36 +125,40 @@ class VideoViewController: UICollectionViewController {
             make.left.right.bottom.equalToSuperview()
         }
         headerView.snp.makeConstraints { (make) in
-            make.top.equalTo(Layout.getNavigationBarHeight())
+            make.top.equalTo(Layout.getNavigationHeight())
             make.left.right.equalToSuperview()
         }
     }
 }
 
 extension VideoViewController {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let records = model?.data?.records {
+        if let records = records {
             return records.count
         }
         return 0
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.id, for: indexPath) as! VideoCollectionViewCell
-        if let records = model?.data?.records {
+        if let records = records {
             cell.set(model: records[indexPath.item])
         }
         return cell
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
+        getMoreVideoList()
     }
 }
 
 class VideosFlowLayout: UICollectionViewFlowLayout {
-    
+
     override init() {
         super.init()
         itemSize = CGSize(width: UIScreen.main.bounds.width/2, height: 200)
@@ -127,7 +166,7 @@ class VideosFlowLayout: UICollectionViewFlowLayout {
         minimumInteritemSpacing = 0
         scrollDirection = .vertical
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -149,11 +188,11 @@ class VideoHeaderView: UIView {
         addSubview(banner)
         addSubview(titleIcon)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         banner.snp.makeConstraints { (make) in

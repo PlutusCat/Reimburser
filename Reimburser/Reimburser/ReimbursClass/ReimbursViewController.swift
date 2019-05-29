@@ -22,7 +22,8 @@ class ReimbursViewController: BaseViewController {
         Reimbur(imgName: "icon_Netcar", title: "网约车"),
         Reimbur(imgName: "icon_express", title: "快递"),
         Reimbur(imgName: "icon_P", title: "停车"),
-        Reimbur(imgName: "icon_cost", title: "话费")
+        Reimbur(imgName: "icon_cost", title: "话费"),
+        Reimbur(imgName: "icon_cost", title: "其他")
     ]
 
     private lazy var headerView: ReimbursHeader = {
@@ -46,7 +47,7 @@ class ReimbursViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         headerView.snp.makeConstraints { (make) in
-            make.top.equalTo(Layout.getNavigationBarHeight())
+            make.top.equalTo(Layout.getNavigationHeight())
             make.left.right.equalToSuperview()
         }
         collection.snp.makeConstraints { (make) in
@@ -96,7 +97,7 @@ class ReimbursHeader: UIView {
     private lazy var title: UILabel = {
         let label = UILabel()
         label.text = "上传票据种类"
-        label.font = UIFont.title03
+        label.font = UIFont.callout
         label.textColor = UIColor.textBack
         return label
     }()

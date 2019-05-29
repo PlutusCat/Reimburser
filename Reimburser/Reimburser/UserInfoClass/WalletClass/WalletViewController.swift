@@ -64,9 +64,9 @@ class WalletViewController: BaseViewController {
 extension WalletViewController {
     private func layoutSubViews() {
         walletIcon.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 28, height: 34))
+            make.size.equalTo(CGSize(width: 24, height: 30))
             make.left.equalTo(16)
-            make.top.equalTo(Layout.getNavigationHeight())
+            make.top.equalTo(Layout.getNavigationHeight()+16)
         }
         walletTitle.snp.makeConstraints { (make) in
             make.left.equalTo(walletIcon.snp.right).offset(16)

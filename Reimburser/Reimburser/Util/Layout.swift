@@ -58,9 +58,9 @@ class Layout {
     /// - Returns: 64 or 44
     public class func getNavigationBarHeight(andStatusBar isHidden: Bool = false) -> CGFloat {
         guard isHidden else {
-            return 64.0
+            return 44.0
         }
-        return 44.0
+        return 64.0
     }
 
     /// 获取 Navigation 高度

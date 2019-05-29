@@ -11,13 +11,15 @@ import Kingfisher
 
 extension UIImageView {
     public func setImage(string: String) {
-        if string.isEmpty { return }
+        if string.isEmpty {
+            self.image = UIImage(named: "icon")
+            return
+        }
 
         let resource = ImageResource(downloadURL: URL(string: string)!)
         self.kf.indicatorType = .activity
         self.kf.setImage(
             with: resource,
-            placeholder: nil,
             options: [
                 .scaleFactor(UIScreen.main.scale),
                 .transition(.fade(1)),
