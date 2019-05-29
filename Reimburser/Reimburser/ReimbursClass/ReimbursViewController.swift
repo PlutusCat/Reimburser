@@ -38,6 +38,7 @@ class ReimbursViewController: BaseViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "报销"
         view.addSubview(headerView)
         view.addSubview(collection)
     }
@@ -45,7 +46,7 @@ class ReimbursViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         headerView.snp.makeConstraints { (make) in
-            make.top.equalTo(Layout.getNavigationHeight())
+            make.top.equalTo(Layout.getNavigationBarHeight())
             make.left.right.equalToSuperview()
             make.height.equalTo(UIScreen.main.bounds.width*0.24)
         }
@@ -76,7 +77,6 @@ extension ReimbursViewController: UICollectionViewDelegate, UICollectionViewData
 class ReimbursHeader: UIView {
     lazy var banner: UIImageView = {
         let image = UIImageView(image: UIImage(named: "banner"))
-        image.contentMode = UIImageView.ContentMode.scaleAspectFill
         return image
     }()
     override init(frame: CGRect) {

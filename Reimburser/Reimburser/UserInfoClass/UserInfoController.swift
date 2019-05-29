@@ -10,9 +10,8 @@ import UIKit
 
 class UserInfoController: BaseViewController {
 
-    private var setModels = [0: [Setitem(icon: "icon_wallet-1", title: "提现")],
-                             1: [Setitem(icon: "icon_repair", title: "提现"),
-                                 Setitem(icon: "icon_repair", title: "设置")]]
+    private var setModels = [0: [Setitem(icon: "icon_wallet-1", title: "我的钱包")],
+                             1: [Setitem(icon: "icon_repair", title: "设置")]]
     private lazy var userTableView: UserInfoTableView = {
         let tableview = UserInfoTableView(frame: .zero, style: .grouped)
         tableview.delegate = self
@@ -76,6 +75,13 @@ extension UserInfoController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        switch indexPath.section {
+        case 0:
+            let vc = WalletViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        default:
+            break
+        }
     }
 }
 

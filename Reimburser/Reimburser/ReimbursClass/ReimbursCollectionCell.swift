@@ -28,7 +28,7 @@ class ReimbursCollectionCell: UICollectionViewCell {
     private lazy var title: UILabel = {
         let label = UILabel()
         label.font = UIFont.body
-        label.textColor = UIColor.textBody
+        label.textColor = UIColor.textBack
         label.textAlignment = .center
         return label
     }()
@@ -51,7 +51,7 @@ class ReimbursCollectionCell: UICollectionViewCell {
         super.layoutSubviews()
         image.snp.makeConstraints { (make) in
             make.top.equalTo(20)
-            make.size.equalTo(CGSize(width: 50, height: 50))
+            make.size.equalTo(CGSize(width: 30, height: 30))
             make.centerX.equalToSuperview()
         }
         title.snp.makeConstraints { (make) in

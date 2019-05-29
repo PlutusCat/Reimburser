@@ -13,26 +13,45 @@ import SnapKit
 import Alamofire
 import SwiftyJSON
 
-class VideoViewController: BaseViewController {
+class VideoViewController: UICollectionViewController {
 
     private var model: VideosRealm?
     private let player: IJKFFMoviePlayerController = {
         let ijkView = IJKFFMoviePlayerController()
         return ijkView
     }()
-
-    private lazy var collection: VideoCollectionView = {
-        let view = VideoCollectionView(frame: .zero)
-        view.delegate = self
-        view.dataSource = self
-        return view
-    }()
+    
+    private var animations = [Animation]()
+    
+    override init(collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(collectionViewLayout: layout)
+        let zoomAn = AnimationType.zoom(scale: 0.95)
+        let fromAn = AnimationType.from(direction: .bottom, offset: 10.0)
+        animations.append(zoomAn)
+        animations.append(fromAn)
+        collectionView.backgroundColor = .background
+        collectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.id)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "视频"
-        view.addSubview(collection)
+        view.backgroundColor = .background
+        navigationItem.title = "首页"
+
         getVideoList()
     }
+
+    func reload() {
+        collectionView.reloadData()
+        collectionView.performBatchUpdates({
+            UIView.animate(views: collectionView.orderedVisibleCells, animations: animations)
+        }, completion: nil)
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
@@ -49,8 +68,7 @@ class VideoViewController: BaseViewController {
             let model = VideosRealm.from(json: json.dictionaryValue)
             DispatchQueue.main.async {
                 self.model = model
-                self.collection.reloadData()
-//               self.view.toastShow(type: .success)
+                self.reload()
             }
         }) { (error) in
             
@@ -59,21 +77,21 @@ class VideoViewController: BaseViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collection.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
+//        collectionView.snp.makeConstraints { (make) in
+//            make.edges.equalToSuperview()
+//        }
     }
 }
 
-extension VideoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension VideoViewController {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let records = model?.data?.records {
             return records.count
         }
         return 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.id, for: indexPath) as! VideoCollectionViewCell
         if let records = model?.data?.records {
             cell.set(model: records[indexPath.item])
@@ -81,8 +99,23 @@ extension VideoViewController: UICollectionViewDelegate, UICollectionViewDataSou
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
+    }
+}
+
+class VideosFlowLayout: UICollectionViewFlowLayout {
+    
+    override init() {
+        super.init()
+        itemSize = CGSize(width: UIScreen.main.bounds.width/2, height: 200)
+        minimumLineSpacing = 0
+        minimumInteritemSpacing = 0
+        scrollDirection = .vertical
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

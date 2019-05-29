@@ -14,12 +14,11 @@ extension UIImageView {
         if string.isEmpty { return }
 
         let resource = ImageResource(downloadURL: URL(string: string)!)
-        let processor = DownsamplingImageProcessor(size: self.frame.size)
+        self.kf.indicatorType = .activity
         self.kf.setImage(
             with: resource,
             placeholder: nil,
             options: [
-                .processor(processor),
                 .scaleFactor(UIScreen.main.scale),
                 .transition(.fade(1)),
                 .cacheOriginalImage

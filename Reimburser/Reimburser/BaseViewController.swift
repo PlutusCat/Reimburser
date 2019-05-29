@@ -10,7 +10,7 @@ import UIKit
 import ViewAnimator
 
 class BaseViewController: UIViewController {
-    private var zoom: Animation!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .background

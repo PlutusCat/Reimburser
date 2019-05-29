@@ -13,6 +13,7 @@ target 'Reimburser' do
   pod 'SwiftySound'
   pod 'IQKeyboardManagerSwift'
   pod 'ViewAnimator'
+  pod 'Toast-Swift'
   pod 'WechatOpenSDK'
   pod 'JPush'
 

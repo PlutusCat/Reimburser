@@ -17,12 +17,13 @@ class MainTabBarController: UITabBarController {
     }
 
     private func configPages() {
-        addViewController(vc: VideoViewController(),
+        let videoVC = VideoViewController(collectionViewLayout: VideosFlowLayout())
+        addViewController(vc: videoVC,
                           barIcon: "item01",
-                          barTitle: "视频")
+                          barTitle: "现金任务")
         addViewController(vc: ReimbursViewController(),
                           barIcon: "item02",
-                          barTitle: "上传")
+                          barTitle: "全民报销")
         addViewController(vc: UserInfoController(),
                           barIcon: "item02",
                           barTitle: "我的")

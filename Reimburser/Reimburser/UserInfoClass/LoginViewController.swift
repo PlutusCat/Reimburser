@@ -66,7 +66,7 @@ extension LoginViewController {
             let json = JSON(result).dictionaryValue
             let model = LoginRealm.from(json: json)
             if let code = model.owner?.code, NetworkResult.isCompleted(code: code) {
-                JPUSHService.setAlias(model.id, completion: { (iResCode, iAlias, _) in
+                JPUSHService.setAlias(model.data?.userInfo.phone, completion: { (iResCode, iAlias, _) in
                     if iResCode == 0 {
                         printm("极光别名注册成功 iAlias=\(iAlias ?? "iAlias 为空")" )
                     }

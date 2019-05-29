@@ -14,15 +14,48 @@ class VideoCollectionViewCell: UICollectionViewCell {
 
     private lazy var image: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = .blue01
+        view.backgroundColor = .gray04
+        view.contentMode = .scaleAspectFill
+        return view
+    }()
+
+    private lazy var redEnvelope: UIImageView = {
+        let view = UIImageView(image: UIImage(named: "icon_wallet"))
+        view.backgroundColor = .clear
         view.contentMode = .scaleAspectFit
         return view
     }()
 
+    private lazy var browse: UIImageView = {
+        let view = UIImageView(image: UIImage(named: "icon_eye"))
+        view.backgroundColor = .clear
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    
+    private lazy var browseLabel: UILabel = {
+        let label = UILabel()
+        label.font = .caption02
+        label.textColor = .white
+        label.numberOfLines = 1
+        return label
+    }()
+
+    private lazy var title: UILabel = {
+        let label = UILabel()
+        label.font = .subHead
+        label.textColor = .textBody
+        label.numberOfLines = 1
+        return label
+    }()
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .clear
         contentView.addSubview(image)
+        contentView.addSubview(title)
+        contentView.addSubview(redEnvelope)
+        contentView.addSubview(browse)
+        contentView.addSubview(browseLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,12 +64,32 @@ class VideoCollectionViewCell: UICollectionViewCell {
 
     func set(model: Records) {
         image.setImage(string: model.cover)
+        title.text = model.title
+        browseLabel.text = model.playVolume
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         image.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+            make.left.top.right.equalToSuperview().inset(4)
+            make.height.equalTo(146)
+        }
+        title.snp.makeConstraints { (make) in
+            make.top.equalTo(image.snp.bottom)
+            make.left.right.equalToSuperview().inset(4)
+            make.bottom.equalToSuperview()
+        }
+        redEnvelope.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 30, height: 33))
+            make.right.bottom.equalTo(image).inset(6)
+        }
+        browse.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 10, height: 6))
+            make.left.bottom.equalTo(image).inset(6)
+        }
+        browseLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(browse.snp.right).offset(4)
+            make.centerY.equalTo(browse)
         }
     }
 
