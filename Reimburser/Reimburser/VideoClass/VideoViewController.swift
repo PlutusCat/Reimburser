@@ -16,11 +16,10 @@ import RealmSwift
 
 class VideoViewController: UICollectionViewController {
 
-    private var model: VideosRealm?
     private var records: List<Records>?
     private var animations = [Animation]()
     private var pageNumber = 1
-    private var pageSize = 20
+    private var pageSize = 2
     /// 有更多数据,可以加载更多
     private var isMore = true
     
@@ -101,8 +100,14 @@ class VideoViewController: UICollectionViewController {
                 if let data = model.data {
                     self.records = data.records
                     self.pageNumber = 2
-                    self.isMore = true
                     self.reload()
+                    if let recordsCount = data.records?.count {
+                        if recordsCount < self.pageSize {
+                            self.isMore = false
+                        } else {
+                            self.isMore = true
+                        }
+                    }
                 } else {
                     printm("没有获取到 data 数据")
                 }
@@ -185,7 +190,18 @@ extension VideoViewController {
         }
         return cell
     }
-
+    
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let count = records?.count {
+            printm("indexPath = ", indexPath)
+            printm("records?.count = ", count)
+            if indexPath.row == count-1 {
+                printm("展示完毕了 - willDisplay -")
+                getMoreVideoList()
+            }
+        }
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
