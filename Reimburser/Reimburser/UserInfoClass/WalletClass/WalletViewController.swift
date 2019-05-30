@@ -24,7 +24,7 @@ class WalletViewController: BaseViewController {
     private var amount = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.title = "我的钱包"
     }
 
     @IBAction func amountAction01(_ sender: UIButton) {

@@ -142,6 +142,7 @@ class EnvelopeOrder: Object {
 
 class UserInfo: Object {
     @objc dynamic var id = ""
+    @objc dynamic var uid = ""
     @objc dynamic var account = ""
     @objc dynamic var phone = ""
     @objc dynamic var role = ""
@@ -149,13 +150,15 @@ class UserInfo: Object {
     @objc dynamic var updateTime = ""
     @objc dynamic var registrationType = ""
     
+    override class func primaryKey() -> String? { return "id" }
+    
     class func from(json: [String : SwiftyJSON.JSON]) -> UserInfo {
         let this = UserInfo()
         if json.isEmpty {
             return this
         }
-        if let id = json["id"]?.stringValue {
-            this.id = id
+        if let uid = json["id"]?.stringValue {
+            this.uid = uid
         }
         if let account = json["account"]?.stringValue {
             this.account = account

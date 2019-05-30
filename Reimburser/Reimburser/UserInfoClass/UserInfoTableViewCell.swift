@@ -72,7 +72,7 @@ class UserInfoTableViewCell: UITableViewCell {
             make.left.equalTo(icon.snp.right).offset(16)
         }
         arrow.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 12, height: 12))
+            make.size.equalTo(CGSize(width: 8, height: 12))
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().inset(16)
         }

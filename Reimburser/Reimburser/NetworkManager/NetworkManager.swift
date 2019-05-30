@@ -122,6 +122,9 @@ extension NetworkManager {
         }
     }
     
+    /// 微信获取用户信息接口
+    ///
+    /// - Parameter model: WXLoginRealm
     public class func wxGetUserinfor(model: WXLoginRealm) {
         let main = "https://api.weixin.qq.com/sns/userinfo?"
         let access_token = "access_token="+model.access_token
@@ -140,12 +143,27 @@ extension NetworkManager {
                         printm("极光别名注册成功 iAlias=\(iAlias ?? "iAlias 为空")" )
                     }
                 }, seq: 000)
-                DispatchQueue.main.async {
-                    LoginManager.login(type: .wx)
-                }
+                LoginManager.login(type: .wx)
             }
         }) { (error) in
             
+        }
+    }
+    
+    public class func wechatlogin(code: String) {
+        let paramet: Parameters = ["code": code,
+                                   "type": "third",
+                                   "app": "wechat"]
+        NetworkManager.request(URLString: API.wechatlogin, paramet: paramet, finishedCallback: { (result) in
+            let json = JSON(result).dictionaryValue
+            let model = BaseModel.from(dictionary: json)
+            if NetworkResult.isCompleted(code: model.code) {
+                printm("第三方授权成功")
+            } else {
+                printm(model.msg)
+            }
+        }) { (error) in
+            printm("网络出现错误")
         }
     }
     

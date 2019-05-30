@@ -21,12 +21,16 @@ extension API {
     open class var videoList: String {
         return "/api/video/list"
     }
+    /// 第三方授权
+    open class var wechatlogin: String {
+        return "/api/user/login"
+    }
 }
 
 class API {
     public class func main() -> String {
         #if DEBUG
-        return "http://51c38bf4.ngrok.io/planet"
+        return "http://7ee63db5.ngrok.io/planet"
         #else
         return "http://www.taomibuy.cn/planet"
         #endif
