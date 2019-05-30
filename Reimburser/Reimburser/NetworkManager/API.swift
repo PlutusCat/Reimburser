@@ -37,6 +37,10 @@ extension API {
     open class var walletBill: String {
         return "/api/wallet/log/bill"
     }
+    /// 上传发票
+    open class var credentialUpload: String {
+        return "/api/consumption/credential/upload"
+    }
 }
 
 class API {

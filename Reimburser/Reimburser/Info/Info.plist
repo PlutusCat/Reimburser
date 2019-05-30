@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>若要选取照片，请允许【全民报销 APP】访问您的相册。</string>
+	<key>NSCameraUsageDescription</key>
+	<string>若要拍取照片，请允许【全民报销 APP】访问您的相机。</string>
 	<key>Application Category LSApplicationQueriesSchemes</key>
 	<array>
 		<string>weixin</string>

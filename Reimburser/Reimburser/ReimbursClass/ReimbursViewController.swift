@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class ReimbursViewController: BaseViewController {
 
@@ -55,6 +56,13 @@ class ReimbursViewController: BaseViewController {
             make.left.right.bottom.equalToSuperview()
         }
     }
+    
+    private func uploadImgfile(image: UIImage) {
+        let imgData = image.jpegData(compressionQuality: 1.0)
+        let paramet: Parameters = ["file": imgData,
+                                   "createTime": Date().milliStamp,
+                                   "device": "ios"]
+    }
 }
 
 extension ReimbursViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -73,7 +81,12 @@ extension ReimbursViewController: UICollectionViewDelegate, UICollectionViewData
         UIAlertController().actionSheet("上传发票照片", titles: ["拍照", "相册"], destructives: nil, callBack: { (index) in
             switch index {
             case 0:
-                printm("拍照")
+                let vc = CameraViewController.viewController { (image) in
+                    
+                }
+                self.present(vc, animated: true) {
+                    print("**** 弹出相机界面 ****")
+                }
             case 1:
                 printm("相册选取")
             default:
