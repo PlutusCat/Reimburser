@@ -23,7 +23,7 @@ extension UIImageView {
             options: [
                 .scaleFactor(UIScreen.main.scale),
                 .transition(.fade(1)),
-                .cacheOriginalImage
+                .alsoPrefetchToMemory
         ]) { result in
             switch result {
             case .success(let value):

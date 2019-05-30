@@ -32,7 +32,7 @@ class ToastView: UIView {
         return imageView
     }()
 
-    init(type: ToastType) {
+    init(msg: String, type: ToastType) {
         let Y = Layout.screen.height-Layout.getTabbarHeight()-60
         super.init(frame: CGRect(x: 0,
                                  y: Y,
@@ -47,6 +47,7 @@ class ToastView: UIView {
         default:
             color = UIColor.yellow00
         }
+        title.text = msg
         layer.borderWidth = 2.0
         layer.borderColor = color.cgColor
         layer.cornerRadius = 10
@@ -97,9 +98,9 @@ extension UIView {
         }
         return array.last
     }
-    public func toastShow(type: ToastType) {
+    public func toastShow(msg: String, type: ToastType) {
         self.toastDiss()
-        let toast = ToastView(type: type)
+        let toast = ToastView(msg: msg, type: type)
         toast.centerX = self.centerX
         self.addSubview(toast)
         UIView.animate(views: [toast],
@@ -118,10 +119,10 @@ extension UIView {
             })
         }
     }
-    public func toastOnWindow(type: ToastType) {
+    public func toastOnWindow(msg: String, type: ToastType) {
         self.toastDiss()
         if let window = UIApplication.shared.keyWindow {
-            let toast = ToastView(type: type)
+            let toast = ToastView(msg: msg, type: type)
             toast.centerX = window.centerX
             window.addSubview(toast)
             UIView.animate(views: [toast],

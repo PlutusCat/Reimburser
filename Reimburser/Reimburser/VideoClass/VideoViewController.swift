@@ -18,6 +18,9 @@ class VideoViewController: UICollectionViewController {
 
     private var model: VideosRealm?
     private var records: List<Records>?
+    /// 有更多数据,可以加载更多
+    private var isMore = true
+    
     private let player: IJKFFMoviePlayerController = {
         let ijkView = IJKFFMoviePlayerController()
         return ijkView
@@ -35,7 +38,7 @@ class VideoViewController: UICollectionViewController {
     }()
     private var animations = [Animation]()
     private var pageNumber = 1
-    private var pageSize = 1
+    private var pageSize = 3
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
         let zoomAn = AnimationType.zoom(scale: 0.95)
@@ -61,7 +64,7 @@ class VideoViewController: UICollectionViewController {
         view.addSubview(headerView)
         getVideoList()
     }
-    
+
     @objc func refreshAction(_ sender: UIRefreshControl) {
         getVideoList()
     }
@@ -70,6 +73,15 @@ class VideoViewController: UICollectionViewController {
         collectionView.reloadData()
         collectionView.performBatchUpdates({
             UIView.animate(views: collectionView.orderedVisibleCells, animations: animations)
+        }, completion: nil)
+    }
+
+    func insertItems(at indexPaths: [IndexPath]) {
+        self.collectionView.insertItems(at: indexPaths)
+        self.collectionView.performBatchUpdates({
+            if let lastCell = self.collectionView.orderedVisibleCells.last {
+                UIView.animate(views: [lastCell], animations: self.animations)
+            }
         }, completion: nil)
     }
 
@@ -88,6 +100,7 @@ class VideoViewController: UICollectionViewController {
                 if let data = model.data {
                     self.records = data.records
                     self.pageNumber = 2
+                    self.isMore = true
                     self.reload()
                 } else {
                     printm("没有获取到 data 数据")
@@ -101,7 +114,11 @@ class VideoViewController: UICollectionViewController {
     }
 
     private func getMoreVideoList() {
-        let paramet: Parameters = ["current": 1,
+        guard isMore else {
+            printm("没有更多了!!")
+            return
+        }
+        let paramet: Parameters = ["current": pageNumber,
                                    "size": pageSize,
                                    "label": []]
         NetworkManager.request(URLString: API.videoList, paramet: paramet, finishedCallback: { (result) in
@@ -109,6 +126,9 @@ class VideoViewController: UICollectionViewController {
             let model = VideosRealm.from(json: json.dictionaryValue)
             DispatchQueue.main.async {
                 if let records = model.data?.records {
+                    if records.count < self.pageSize {
+                        self.isMore = false
+                    }
                     self.pageNumber += 1
                     let resultSize = self.records?.count ?? 0
                     var indexPaths = [IndexPath]()
@@ -122,7 +142,7 @@ class VideoViewController: UICollectionViewController {
                             indexPaths.append(indexPath)
                         }
                     }
-                    self.collectionView.insertItems(at: indexPaths)
+                    self.insertItems(at: indexPaths)
                 } else {
                     printm("没有获取到更多 data 数据")
                 }
