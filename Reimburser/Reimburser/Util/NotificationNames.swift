@@ -13,4 +13,8 @@ class NotificationNames: NSObject {
     public class var loginSuccess: NSNotification.Name {
         return NSNotification.Name(rawValue: "NotificationNames_loginSuccess")
     }
+    /// 退出成功
+    public class var logoutSuccess: NSNotification.Name {
+        return NSNotification.Name(rawValue: "NotificationNames_logoutSuccess")
+    }
 }

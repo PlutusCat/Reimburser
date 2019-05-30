@@ -369,10 +369,10 @@
 		6CF2032922969FCB00A6EE30 /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
-				6CCE1712229F9FCE00CD9B1C /* LoginManager.swift */,
+				6CF2032C22969FCB00A6EE30 /* API.swift */,
 				6CF2032A22969FCB00A6EE30 /* NetworkManager.swift */,
 				6CF2032B22969FCB00A6EE30 /* NetworkResult.swift */,
-				6CF2032C22969FCB00A6EE30 /* API.swift */,
+				6CCE1712229F9FCE00CD9B1C /* LoginManager.swift */,
 				6CCE1721229FBC3C00CD9B1C /* SystemManager.swift */,
 			);
 			path = NetworkManager;

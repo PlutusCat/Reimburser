@@ -179,6 +179,17 @@ class UserInfo: Object {
     }
 }
 
+extension LoginRealm {
+    public class func remove() {
+        let realm = try! Realm()
+        if let user = realm.object(ofType: LoginRealm.self, forPrimaryKey: loginKey) {
+            try! realm.write {
+                realm.delete(user)
+            }
+        }
+    }
+}
+
 //extension LoginRealm {
 //    public class func reload() {
 //        let realm = try! Realm()

@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIAlertController {
-    func actionSheet(_ title: String, titles: Array<String>, destructives: Array<Int>?, callBack: @escaping (_ index: Int) -> ()) {
+    func actionSheet(_ title: String? = nil, titles: Array<String>, destructives: Array<Int>?, callBack: @escaping (_ index: Int) -> ()) {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
         for i in 0 ..< titles.count {
             var style: UIAlertAction.Style = .`default`

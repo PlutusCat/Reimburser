@@ -48,19 +48,18 @@ class WXLoginRealm: Object {
     }
 }
 
-/**
- {
- "sex" : 1,
- "province" : "Beijing",
- "openid" : "ovAqw5yXEuVkQWNOvMmy-Ghk8ckA",
- "privilege" : [
- 
- ],
- "country" : "CN",
- "unionid" : "oY9ir1VfXxdPHdzMdEZCdbvtRT1c",
- "nickname" : "PlutusCat",
- "city" : "",
- "language" : "zh_CN",
- "headimgurl" : "http:\/\/thirdwx.qlogo.cn\/mmopen\/vi_32\/DYAIOgq83eoE0ia1SeIBlXFcmb1jSJMSlwsaY23O9l4VWcYJCfrAgfdVumAxlAeW6opYL6FUxmWLGVTO6AMyKEw\/132"
- }
- */
+extension WXLoginRealm {
+    public class func remove() {
+        let realm = try! Realm()
+        if let user = realm.object(ofType: WXLoginRealm.self, forPrimaryKey: wxLoginKey) {
+            try! realm.write {
+                realm.delete(user)
+            }
+        }
+        if let user = realm.object(ofType: WXUserInfoRealm.self, forPrimaryKey: wxUserInfoKey) {
+            try! realm.write {
+                realm.delete(user)
+            }
+        }
+    }
+}

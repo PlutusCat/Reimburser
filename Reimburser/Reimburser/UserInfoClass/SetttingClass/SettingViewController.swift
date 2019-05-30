@@ -69,7 +69,11 @@ extension SettingViewController: UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 0:
-            printm("退出登录")
+            UIAlertController().actionSheet(titles: ["确定退出当前用户"], destructives: nil, callBack: { (index) in
+                NetworkManager.logOut()
+                NotificationCenter.default.post(name: NotificationNames.logoutSuccess, object: nil)
+                self.navigationController?.popViewController(animated: true)
+            })
         default:
             break
         }

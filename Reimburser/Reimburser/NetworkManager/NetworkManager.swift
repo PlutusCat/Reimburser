@@ -74,20 +74,26 @@ class NetworkManager: NSObject {
 extension NetworkManager {
 
     /// 退出登录
-    ///
-    /// - Parameter sessionId: 用户 Token = LoginRealm.appSessionId
-    public class func logOut(sessionId: String) {
-        let paramet: Parameters = ["appSessionId": sessionId]
-        NetworkManager.request(URLString: API.loginOut, paramet: paramet, finishedCallback: { (result) in
+    public class func logOut() {
+        
+        let realm = try! Realm()
+        LoginRealm.remove()
+        WXLoginRealm.remove()
+        let value = ["id": loginManagerRealmKey, "type": 0] as [String : Any]
+        try! realm.write {
+            realm.create(LoginManagerRealm.self, value: value, update: true)
+        }
+
+        NetworkManager.request(URLString: API.loginOut, method: .get, finishedCallback: { (result) in
             let json = JSON(result).dictionaryValue
             let model = BaseModel.from(dictionary: json)
             if NetworkResult.isCompleted(code: model.code) {
-                printm("退出登录，销毁 appSessionId 成功！")
+                printm("退出登录成功！")
             } else {
-                printm("退出登录，销毁 appSessionId 失败！")
+                printm("退出登录失败！")
             }
         }) { _ in
-            printm("退出登录，销毁 appSessionId 失败！")
+            printm("退出登录失败！")
         }
     }
     

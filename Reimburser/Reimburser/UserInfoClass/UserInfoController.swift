@@ -13,7 +13,8 @@ import RxSwift
 
 class UserInfoController: BaseViewController {
 
-    private var setModels = [1: [Setitem(icon: "icon_repair", title: "设置")]]
+    private var setModels = [0: [],
+                             1: [Setitem(icon: "icon_repair", title: "设置")]]
     private lazy var userTableView: UserInfoTableView = {
         let tableview = UserInfoTableView(frame: .zero, style: .grouped)
         tableview.delegate = self
@@ -28,14 +29,19 @@ class UserInfoController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "我的"
+        addNotice()
         view.addSubview(userTableView)
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadCell), name: NotificationNames.loginSuccess, object: nil)
         userTableView.tableHeaderView = tableHeader
         tableHeader.tapGestureBack = { [weak self] in
             let login = LoginViewController()
             self?.present(login, animated: true, completion: nil)
         }
         isLogined()
+    }
+    
+    private func addNotice() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCell), name: NotificationNames.loginSuccess, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(isLogouted), name: NotificationNames.logoutSuccess, object: nil)
     }
     
     private func isLogined() {
@@ -48,9 +54,18 @@ class UserInfoController: BaseViewController {
                 loadCellInPhone()
             default:
                 printm("未知登陆状态")
+//                isLogouted()
                 break
             }
         }
+    }
+    
+    @objc private func isLogouted() {
+        tableHeader.isUserInteractionEnabled = true
+        tableHeader.title.text = "请点此登陆"
+        tableHeader.headerIcon.image = UIImage(named: "icon_Username")
+        setModels[0] = []
+        userTableView.reloadData()
     }
 
     @objc private func reloadCell(_ sender: Notification) {
@@ -77,11 +92,8 @@ class UserInfoController: BaseViewController {
             setModels[0] = [Setitem(icon: "icon_wallet-1", title: "我的钱包")]
             userTableView.reloadData()
             
-            if let user = realm.object(ofType: LoginRealm.self, forPrimaryKey: loginKey) {
-                try! realm.write {
-                    realm.delete(user)
-                }
-            }
+            LoginRealm.remove()
+
         }
     }
     private func loadCellInPhone() {
@@ -91,11 +103,8 @@ class UserInfoController: BaseViewController {
             tableHeader.isUserInteractionEnabled = false
             tableHeader.title.text = user.data.userInfo.phone
             
-            if let user = realm.object(ofType: WXUserInfoRealm.self, forPrimaryKey: wxUserInfoKey) {
-                try! realm.write {
-                    realm.delete(user)
-                }
-            }
+            WXLoginRealm.remove()
+
         }
     }
 
@@ -140,11 +149,8 @@ extension UserInfoController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        switch indexPath.section {
-        case 0:
-            let vc = WalletViewController()
-            navigationController?.pushViewController(vc, animated: true)
-        case 1:
+
+        if setModels[0]!.isEmpty {
             switch indexPath.row {
             case 0:
                 let vc = SettingViewController()
@@ -152,8 +158,22 @@ extension UserInfoController: UITableViewDataSource {
             default:
                 break
             }
-        default:
-            break
+        } else {
+            switch indexPath.section {
+            case 0:
+                let vc = WalletViewController()
+                navigationController?.pushViewController(vc, animated: true)
+            case 1:
+                switch indexPath.row {
+                case 0:
+                    let vc = SettingViewController()
+                    navigationController?.pushViewController(vc, animated: true)
+                default:
+                    break
+                }
+            default:
+                break
+            }
         }
     }
 }
