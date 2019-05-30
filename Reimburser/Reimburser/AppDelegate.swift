@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = false
         jpush(launchOptions: launchOptions)
-        WXApi.registerApp("wxa8098c7baeb6356c")
+        WXApi.registerApp(AppSecret.wxAppid)
         showHomeViewController()
         return true
     }
@@ -57,7 +57,7 @@ extension AppDelegate {
 
 extension AppDelegate {
     private func jpush(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-        let jpushKey = "6fb975b4f30a18877adf9d10"
+        let jpushKey = AppSecret.jPushAppKey
         #if DEBUG
         let channel = "DEBUG"
         let  isProduction = false
@@ -101,10 +101,17 @@ extension AppDelegate: WXApiDelegate {
         }
     }
     func onResp(_ resp: BaseResp) {
-        printm(resp.errCode)
         switch resp.errCode {
         case 0:
             printm("用户同意了微信授权")
+            if resp.isKind(of: SendAuthResp.self) {
+                let temp = resp as! SendAuthResp
+                if let code = temp.code {
+                    NetworkManager.getWechatToken(code: code)
+                } else {
+                    printm("获取授权失败")
+                }
+            }
         case -4:
             printm("用户拒绝了微信授权")
         case -2:

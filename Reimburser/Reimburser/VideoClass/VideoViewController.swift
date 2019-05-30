@@ -18,6 +18,9 @@ class VideoViewController: UICollectionViewController {
 
     private var model: VideosRealm?
     private var records: List<Records>?
+    private var animations = [Animation]()
+    private var pageNumber = 1
+    private var pageSize = 20
     /// 有更多数据,可以加载更多
     private var isMore = true
     
@@ -25,7 +28,7 @@ class VideoViewController: UICollectionViewController {
         let ijkView = IJKFFMoviePlayerController()
         return ijkView
     }()
-    
+
     private lazy var headerView: VideoHeaderView = {
         let view = VideoHeaderView()
         return view
@@ -36,9 +39,7 @@ class VideoViewController: UICollectionViewController {
         control.addTarget(self, action: #selector(refreshAction), for: UIControl.Event.valueChanged)
         return control
     }()
-    private var animations = [Animation]()
-    private var pageNumber = 1
-    private var pageSize = 3
+
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
         let zoomAn = AnimationType.zoom(scale: 0.95)
@@ -55,7 +56,7 @@ class VideoViewController: UICollectionViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .background
@@ -187,7 +188,7 @@ extension VideoViewController {
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        getMoreVideoList()
+        
     }
 }
 

@@ -26,10 +26,24 @@ extension API {
 class API {
     public class func main() -> String {
         #if DEBUG
-        return "http://www.taomibuy.cn/planet"
+        return "http://51c38bf4.ngrok.io/planet"
         #else
-        return "https://"
+        return "http://www.taomibuy.cn/planet"
         #endif
     }
+}
 
+class AppSecret {
+    /// 微信 appid
+    open class var wxAppid: String {
+        return "wxa8098c7baeb6356c"
+    }
+    /// 微信 AppSecret
+    open class var wxAppSecret: String {
+        return "f448b0a024b486187d2392b3c399a099"
+    }
+    /// 极光 AppKey
+    open class var jPushAppKey: String {
+        return "6fb975b4f30a18877adf9d10"
+    }
 }

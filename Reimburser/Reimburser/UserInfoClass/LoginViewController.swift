@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import Alamofire
+import RealmSwift
 
 class LoginViewController: BaseViewController {
 
@@ -71,6 +72,9 @@ extension LoginViewController {
                         printm("极光别名注册成功 iAlias=\(iAlias ?? "iAlias 为空")" )
                     }
                 }, seq: 000)
+                DispatchQueue.main.async {
+                    LoginManager.login(type: .phone)
+                }
             } else {
                 printm(model.owner?.msg ?? "数据出现错误")
             }

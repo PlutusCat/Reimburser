@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import RealmSwift
+import RxRealm
+import RxSwift
 
 class UserInfoController: BaseViewController {
 
-    private var setModels = [0: [Setitem(icon: "icon_wallet-1", title: "我的钱包")],
-                             1: [Setitem(icon: "icon_repair", title: "设置")]]
+    private var setModels = [1: [Setitem(icon: "icon_repair", title: "设置")]]
     private lazy var userTableView: UserInfoTableView = {
         let tableview = UserInfoTableView(frame: .zero, style: .grouped)
         tableview.delegate = self
@@ -27,15 +29,78 @@ class UserInfoController: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = "我的"
         view.addSubview(userTableView)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCell), name: NotificationNames.loginSuccess, object: nil)
         userTableView.tableHeaderView = tableHeader
         tableHeader.tapGestureBack = { [weak self] in
             let login = LoginViewController()
             self?.present(login, animated: true, completion: nil)
         }
+        isLogined()
+    }
+    
+    private func isLogined() {
+        let realm = try! Realm()
+        if let login = realm.object(ofType: LoginManagerRealm.self, forPrimaryKey: loginManagerRealmKey) {
+            switch login.type {
+            case 1:
+                loadCellInWechat()
+            case 2:
+                loadCellInPhone()
+            default:
+                printm("未知登陆状态")
+                break
+            }
+        }
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    @objc private func reloadCell(_ sender: Notification) {
+        let type = sender.object as! LoginType
+        switch type {
+        case .wx:
+            loadCellInWechat()
+        case .phone:
+            loadCellInPhone()
+        default:
+            printm("未知登陆状态")
+            break
+        }
+    }
+    
+    private func loadCellInWechat() {
+        printm("微信登陆")
+        let realm = try! Realm()
+        if let user = realm.object(ofType: WXUserInfoRealm.self, forPrimaryKey: wxUserInfoKey) {
+            tableHeader.isUserInteractionEnabled = false
+            tableHeader.title.text = user.nickname
+            tableHeader.headerIcon.setImage(string: user.headimgurl)
+            
+            setModels[0] = [Setitem(icon: "icon_wallet-1", title: "我的钱包")]
+            userTableView.reloadData()
+            
+            if let user = realm.object(ofType: LoginRealm.self, forPrimaryKey: loginKey) {
+                try! realm.write {
+                    realm.delete(user)
+                }
+            }
+        }
+    }
+    private func loadCellInPhone() {
+        printm("手机号登陆")
+        let realm = try! Realm()
+        if let user = realm.object(ofType: LoginRealm.self, forPrimaryKey: loginKey) {
+            tableHeader.isUserInteractionEnabled = false
+            tableHeader.title.text = user.data.userInfo.phone
+            
+            if let user = realm.object(ofType: WXUserInfoRealm.self, forPrimaryKey: wxUserInfoKey) {
+                try! realm.write {
+                    realm.delete(user)
+                }
+            }
+        }
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         userTableView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
@@ -79,6 +144,14 @@ extension UserInfoController: UITableViewDataSource {
         case 0:
             let vc = WalletViewController()
             navigationController?.pushViewController(vc, animated: true)
+        case 1:
+            switch indexPath.row {
+            case 0:
+                let vc = SettingViewController()
+                navigationController?.pushViewController(vc, animated: true)
+            default:
+                break
+            }
         default:
             break
         }
