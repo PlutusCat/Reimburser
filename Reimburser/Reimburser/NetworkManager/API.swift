@@ -9,6 +9,10 @@
 import Foundation
 
 extension API {
+    /// 隐私政策 rul
+    open class var privacyURL: String {
+        return "http://www.taomibuy.cn/planet/api/free/p2"
+    }
     /// 登陆接口
     open class var login: String {
         return "/api/user/login"
@@ -25,6 +29,14 @@ extension API {
     open class var wechatlogin: String {
         return "/api/user/login"
     }
+    /// 获取钱包余额
+    open class var walletInfo: String {
+        return "/api/wallet/info"
+    }
+    /// 个人钱包明细查询
+    open class var walletBill: String {
+        return "/api/wallet/log/bill"
+    }
 }
 
 class API {
@@ -34,6 +46,13 @@ class API {
         #else
         return "http://www.taomibuy.cn/planet"
         #endif
+    }
+}
+
+class wechatAPI {
+    /// 统一下单
+    open class var unifiedorder: String {
+        return "https://api.mch.weixin.qq.com/pay/unifiedorder"
     }
 }
 

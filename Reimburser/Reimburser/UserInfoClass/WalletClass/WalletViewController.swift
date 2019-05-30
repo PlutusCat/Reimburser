@@ -25,6 +25,7 @@ class WalletViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "我的钱包"
+        getWalletInfo()
     }
 
     @IBAction func amountAction01(_ sender: UIButton) {
@@ -38,6 +39,12 @@ class WalletViewController: BaseViewController {
     }
     @IBAction func cashAction(_ sender: UIButton) {
         
+    }
+    
+    private func getWalletInfo() {
+//        let paramet: Parameters = ["account": "17793873123",
+//                                   "password": "121101mxf",
+//                                   "type": "pwd"]
     }
 
     private func reloadCashTitle(_ sender: UIButton) {

@@ -50,10 +50,8 @@ class MainTabBarController: UITabBarController {
 class MainNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        initialization()
+        navigationBar.tintColor = .black
         screenPanGes()
-
     }
 
     private func screenPanGes() {
@@ -69,17 +67,7 @@ class MainNavigationController: UINavigationController {
         gesView.addGestureRecognizer(panGes)
         panGes.addTarget(target, action: action)
     }
-
-    private func initialization() {
-        navigationBar.tintColor = .white
-        navigationBar.barStyle = .black
-        let image = UIImage(named: "navigationbar_backgroudcolor")
-        navigationBar.setBackgroundImage(image,
-                                         for: .any,
-                                         barMetrics: .default)
-        navigationBar.shadowImage = image
-    }
-
+    
     @objc private func backToPrevious() {
         popViewController(animated: true)
     }

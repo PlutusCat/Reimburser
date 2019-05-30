@@ -10,7 +10,7 @@ import UIKit
 
 class SettingViewController: BaseViewController {
 
-    private var setModels = ["退出登陆"]
+    private var setModels = ["隐私政策", "退出登陆"]
     private lazy var settingTableView: SettingTableView = {
         let tableview = SettingTableView(frame: .zero, style: .plain)
         tableview.delegate = self
@@ -69,6 +69,9 @@ extension SettingViewController: UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 0:
+            let vc = PrivacyWebController()
+            self.present(vc, animated: true, completion: nil)
+        case 1:
             UIAlertController().actionSheet(titles: ["确定退出当前用户"], destructives: nil, callBack: { (index) in
                 NetworkManager.logOut()
                 NotificationCenter.default.post(name: NotificationNames.logoutSuccess, object: nil)
