@@ -8,7 +8,6 @@
 
 import UIKit
 import ViewAnimator
-import IJKMediaFramework
 import SnapKit
 import Alamofire
 import SwiftyJSON
@@ -19,15 +18,10 @@ class VideoViewController: UICollectionViewController {
     private var records: List<Records>?
     private var animations = [Animation]()
     private var pageNumber = 1
-    private var pageSize = 2
+    private var pageSize = 10
     /// 有更多数据,可以加载更多
     private var isMore = true
     
-    private let player: IJKFFMoviePlayerController = {
-        let ijkView = IJKFFMoviePlayerController()
-        return ijkView
-    }()
-
     private lazy var headerView: VideoHeaderView = {
         let view = VideoHeaderView()
         return view
@@ -169,6 +163,7 @@ class VideoViewController: UICollectionViewController {
             make.left.right.equalToSuperview()
         }
     }
+    
 }
 
 extension VideoViewController {
@@ -196,7 +191,6 @@ extension VideoViewController {
             printm("indexPath = ", indexPath)
             printm("records?.count = ", count)
             if indexPath.row == count-1 {
-                printm("展示完毕了 - willDisplay -")
                 getMoreVideoList()
             }
         }
@@ -204,7 +198,11 @@ extension VideoViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
+        if let model = records?[indexPath.row] {
+            printm(model.url)
+            let vc = VideoPlayerController()
+            present(vc, animated: true, completion: nil)
+        }
     }
 }
 

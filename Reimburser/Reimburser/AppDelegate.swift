@@ -34,6 +34,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         JPUSHService.resetBadge()
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        if let presentedVC = window?.rootViewController?.presentedViewController, presentedVC.isKind(of: VideoPlayerController.self) {
+            let playerVC = presentedVC as! VideoPlayerController
+            if playerVC.isPresented {
+                return .portrait
+            } else {
+                return .all
+            }
+        } else {
+           return .portrait
+        }
+    }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         JPUSHService.registerDeviceToken(deviceToken)
