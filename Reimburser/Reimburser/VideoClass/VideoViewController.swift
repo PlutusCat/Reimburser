@@ -201,6 +201,7 @@ extension VideoViewController {
         if let model = records?[indexPath.row] {
             printm(model.url)
             let vc = VideoPlayerController()
+            vc.videoUrl = model.url
             present(vc, animated: true, completion: nil)
         }
     }

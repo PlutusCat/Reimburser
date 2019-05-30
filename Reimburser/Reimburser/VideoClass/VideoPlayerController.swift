@@ -12,30 +12,77 @@ import IJKMediaFramework
 class VideoPlayerController: UIViewController {
 
     var isPresented = false
+    var videoUrl = ""
     
-    private let player: IJKFFMoviePlayerController = {
+    private var goBack: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "icon_back"), for: .normal)
+        button.addTarget(self, action: #selector(goBackAction), for: .touchUpInside)
+        return button
+    }()
+    
+    private var fullScreen: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "enterfullscreen"), for: .normal)
+        button.addTarget(self, action: #selector(enterFullScreen), for: .touchUpInside)
+        return button
+    }()
+    
+    private var player: IJKFFMoviePlayerController = {
         let ijkView = IJKFFMoviePlayerController()
         return ijkView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .background
+        view.backgroundColor = .black
+        view.autoresizesSubviews = true
 
-        let label = UILabel()
-        label.text = "1111111"
-        label.textColor = UIColor.blue01
-        view.addSubview(label)
+        let options = IJKFFOptions.byDefault()
+        let url = URL(string: videoUrl)
+        let autoresize = UIView.AutoresizingMask.flexibleWidth.rawValue |
+            UIView.AutoresizingMask.flexibleHeight.rawValue
+        player = IJKFFMoviePlayerController(contentURL: url, with: options)
+        player.view.autoresizingMask = UIView.AutoresizingMask(rawValue: autoresize)
+        player.view.frame = view.bounds
+        player.scalingMode = .aspectFit
+        player.shouldAutoplay = true
         
-        label.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-        }
-        
-        // Do any additional setup after loading the view.
+        view.addSubview(player.view)
+        view.addSubview(goBack)
+        view.addSubview(fullScreen)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        dismiss(animated: true, completion: nil)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        player.prepareToPlay()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        player.stop()
+        player.shutdown()
+    }
+    
+    @objc private func goBackAction() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func enterFullScreen() {
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        goBack.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 40, height: 40))
+            make.left.equalTo(Layout.getSafeArea().left)
+            make.top.equalTo(Layout.getSafeArea().top)
+        }
+        fullScreen.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 40, height: 40))
+            make.right.bottom.equalToSuperview().inset(16)
+        }
     }
     
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
