@@ -18,7 +18,7 @@ class VideoViewController: UICollectionViewController {
     private var records: List<Records>?
     private var animations = [Animation]()
     private var pageNumber = 1
-    private var pageSize = 10
+    private var pageSize = 4
     /// 有更多数据,可以加载更多
     private var isMore = false
     
@@ -84,6 +84,7 @@ class VideoViewController: UICollectionViewController {
     }
 
     private func getVideoList() {
+        self.isMore = false
         let paramet: Parameters = ["current": 1,
                                    "size": pageSize,
                                    "label": []]

@@ -74,9 +74,16 @@ class ReimbursViewController: BaseViewController {
             switch request {
             case .success(let request, _, _):
                 //   printm(streamFileURL!,request,streamingFromDisk)
+                request.uploadProgress(closure: { (progress) in
+                    printm("progress =", progress)
+                })
                 request.responseJSON(completionHandler: { (DResponse) in
+                    printm(DResponse.result)
                     if DResponse.result.isSuccess {
                         printm("上传成功！！！")
+                    }
+                    if DResponse.result.isFailure {
+                        printm("上传失败！！！")
                     }
                 })
                 break

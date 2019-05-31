@@ -39,10 +39,19 @@ class NetworkManager: NSObject {
         } else {
             url = URLString
         }
+        
+        var headers: HTTPHeaders?
+        let realm = try! Realm()
+        if let user = realm.object(ofType: LoginRealm.self, forPrimaryKey: loginKey) {
+            let token = user.token
+            headers = ["token": token]
+        }
+
         let request = sessionManager.request(url,
                                         method: method,
                                         parameters: paramet,
-                                        encoding: JSONEncoding.default)
+                                        encoding: JSONEncoding.default,
+                                        headers: headers)
             .responseJSON { (response) in
                 printm("--- 请求的地址 ---")
                 printm(url)
