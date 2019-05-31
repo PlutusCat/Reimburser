@@ -20,7 +20,7 @@ class VideoViewController: UICollectionViewController {
     private var pageNumber = 1
     private var pageSize = 10
     /// 有更多数据,可以加载更多
-    private var isMore = true
+    private var isMore = false
     
     private lazy var headerView: VideoHeaderView = {
         let view = VideoHeaderView()
@@ -104,11 +104,13 @@ class VideoViewController: UICollectionViewController {
                     }
                 } else {
                     printm("没有获取到 data 数据")
+                    self.isMore = false
                 }
                 self.refreshControl.endRefreshing()
             }
         }) { (error) in
             self.refreshControl.endRefreshing()
+            self.isMore = false
             printm("网络出现错误")
         }
     }

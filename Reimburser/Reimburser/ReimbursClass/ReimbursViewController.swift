@@ -59,7 +59,32 @@ class ReimbursViewController: BaseViewController {
         }
     }
     
-    private func uploadImgfile(paramet: Parameters) {
+    private func uploadImgfile(imageData: Data, time: String) {
+        
+        let device = "ios".data(using: .utf8)
+        let createTime = time.data(using: .utf8)
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            multipartFormData.append(imageData,
+                                     withName: "file",
+                                     fileName: time+"jpeg",
+                                     mimeType: "image/jpeg")
+            multipartFormData.append(createTime!, withName: "createTime")
+            multipartFormData.append(device!, withName: "device")
+        }, to: API.credentialUpload, encodingCompletion: { (request) in
+            switch request {
+            case .success(let request, _, _):
+                //   printm(streamFileURL!,request,streamingFromDisk)
+                request.responseJSON(completionHandler: { (DResponse) in
+                    if DResponse.result.isSuccess {
+                        printm("上传成功！！！")
+                    }
+                })
+                break
+            case .failure(_):
+                printm("上传失败！！！")
+                break
+            }
+        })
         
     }
 }
@@ -81,11 +106,34 @@ extension ReimbursViewController: UICollectionViewDelegate, UICollectionViewData
             switch index {
             case 0:
                 let vc = CameraViewController.viewController { (image) in
-                    let imgData = image.jpegData(compressionQuality: 1.0)
-                    let paramet: Parameters = ["file": imgData,
-                                               "createTime": Date().milliStamp,
-                                               "device": "ios"]
                     
+                    let date = Date().milliStamp
+                    
+                    if let imageData = image.jpegData(compressionQuality: 1.0) {
+                        self.uploadImgfile(imageData: imageData, time: date)
+                    }
+                        /// 保存当前获取到的图片到沙盒 临时文件存储路径 tmp/
+//                    let fullName = date+".jpeg"
+//                        let tmp = NSTemporaryDirectory()
+//                        let fullPath = tmp.appending(fullName)
+//                        try? imageData.write(to: URL(fileURLWithPath: fullPath))
+//                        let fileManager = FileManager.default
+//                        let exist = fileManager.fileExists(atPath: fullPath)
+//                        if exist {
+//                            Alamofire.upload(URL(fileURLWithPath: fullPath), to: API.credentialUpload).validate().responseData { (DDataRequest) in
+//                                if DDataRequest.result.isSuccess {
+//                                    printm(String.init(data: DDataRequest.data!, encoding: String.Encoding.utf8)!)
+//                                }
+//                                if DDataRequest.result.isFailure {
+//                                    printm("上传失败！！！")
+//                                }
+//                            }
+//
+//                        } else {
+//
+//                        }
+                        
+//                    }
                 }
                 self.present(vc, animated: true) {
                     printm("**** 弹出相机界面 ****")
@@ -111,7 +159,10 @@ extension ReimbursViewController: AssetsPickerViewControllerDelegate {
         if let asset = assets.first {
             let imageManager = PHCachingImageManager()
             imageManager.requestImageData(for: asset, options: nil) { (imgData, info, orientation, nil) in
-                
+                let date = Date().milliStamp
+                if let imgData = imgData {
+                    self.uploadImgfile(imageData: imgData, time: date)
+                }
             }
         }
     }
