@@ -79,7 +79,7 @@ class CameraViewController: UIViewController {
 
 //        UIApplication.shared.setStatusBarStyle(.lightContent, animated: true)
 
-        view.backgroundColor = .white
+        view.backgroundColor = .black
 
         view.addSubview(cameraView)
         view.addSubview(closeBtn)

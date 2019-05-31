@@ -8,6 +8,8 @@
 
 import UIKit
 import Alamofire
+import Photos
+import AssetsPickerViewController
 
 class ReimbursViewController: BaseViewController {
 
@@ -57,11 +59,8 @@ class ReimbursViewController: BaseViewController {
         }
     }
     
-    private func uploadImgfile(image: UIImage) {
-        let imgData = image.jpegData(compressionQuality: 1.0)
-        let paramet: Parameters = ["file": imgData,
-                                   "createTime": Date().milliStamp,
-                                   "device": "ios"]
+    private func uploadImgfile(paramet: Parameters) {
+        
     }
 }
 
@@ -82,17 +81,45 @@ extension ReimbursViewController: UICollectionViewDelegate, UICollectionViewData
             switch index {
             case 0:
                 let vc = CameraViewController.viewController { (image) in
+                    let imgData = image.jpegData(compressionQuality: 1.0)
+                    let paramet: Parameters = ["file": imgData,
+                                               "createTime": Date().milliStamp,
+                                               "device": "ios"]
                     
                 }
                 self.present(vc, animated: true) {
-                    print("**** 弹出相机界面 ****")
+                    printm("**** 弹出相机界面 ****")
                 }
             case 1:
-                printm("相册选取")
+                let pickerConfig = AssetsPickerConfig()
+                
+                let picker = AssetsPickerViewController()
+                picker.pickerConfig = pickerConfig
+                picker.pickerDelegate = self
+                self.present(picker, animated: true) {
+                    printm("**** 弹出相册界面 ****")
+                }
             default:
                 break
             }
         })
+    }
+}
+
+extension ReimbursViewController: AssetsPickerViewControllerDelegate {
+    func assetsPicker(controller: AssetsPickerViewController, selected assets: [PHAsset]) {
+        if let asset = assets.first {
+            let imageManager = PHCachingImageManager()
+            imageManager.requestImageData(for: asset, options: nil) { (imgData, info, orientation, nil) in
+                
+            }
+        }
+    }
+    func assetsPicker(controller: AssetsPickerViewController, shouldSelect asset: PHAsset, at indexPath: IndexPath) -> Bool {
+        if controller.selectedAssets.count > 0 {
+            controller.photoViewController.deselectAll()
+        }
+        return true
     }
 }
 
