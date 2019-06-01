@@ -14,7 +14,7 @@ import SwiftyJSON
 class VideosRealm: Object {
     @objc dynamic var id = videosKey
     @objc dynamic var owner: BaseModel?
-    dynamic var data: VideosData?
+    @objc dynamic var data: VideosData?
     
     class func from(json: [String : SwiftyJSON.JSON]) -> VideosRealm {
         let this = VideosRealm()

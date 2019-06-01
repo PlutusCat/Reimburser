@@ -101,10 +101,8 @@ class UserInfoController: BaseViewController {
         let realm = try! Realm()
         if let user = realm.object(ofType: LoginRealm.self, forPrimaryKey: loginKey) {
             tableHeader.isUserInteractionEnabled = false
-            tableHeader.title.text = user.data.userInfo.phone
-            
+            tableHeader.title.text = user.userInfo?.phone
             WXLoginRealm.remove()
-
         }
     }
 

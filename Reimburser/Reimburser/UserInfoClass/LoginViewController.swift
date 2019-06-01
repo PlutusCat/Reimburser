@@ -67,13 +67,19 @@ extension LoginViewController {
             let json = JSON(result).dictionaryValue
             let model = LoginRealm.from(json: json)
             if let code = model.owner?.code, NetworkResult.isCompleted(code: code) {
-                JPUSHService.setAlias(model.data?.userInfo.uid, completion: { (iResCode, iAlias, _) in
+                JPUSHService.setAlias(model.userInfo?.uid, completion: { (iResCode, iAlias, _) in
                     if iResCode == 0 {
                         printm("极光别名注册成功 iAlias=\(iAlias ?? "iAlias 为空")" )
                     }
                 }, seq: 000)
                 DispatchQueue.main.async {
-                    LoginManager.login(type: .phone)
+                    let realm = try! Realm()
+                    try! realm.write {
+                        realm.add(model, update: true)
+                    }
+                    self.dismiss(animated: true, completion: {
+                        LoginManager.login(type: .phone, token: model.token)
+                    })
                 }
             } else {
                 printm(model.owner?.msg ?? "数据出现错误")

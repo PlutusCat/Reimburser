@@ -17,6 +17,7 @@ public enum LoginType: Int {
 
 class LoginManagerRealm: Object {
     @objc dynamic var id = loginManagerRealmKey
+    @objc dynamic var token = ""
     @objc dynamic var type = 0
     
     override class func primaryKey() -> String? { return "id" }
@@ -25,9 +26,11 @@ class LoginManagerRealm: Object {
 
 class LoginManager: NSObject {
 
-    public class func login(type: LoginType) {
+    public class func login(type: LoginType, token: String) {
         let realm = try! Realm()
-        let value = ["id": loginManagerRealmKey, "type": type.rawValue] as [String : Any]
+        let value = ["id": loginManagerRealmKey,
+                     "type": type.rawValue,
+                     "token": token] as [String : Any]
         try! realm.write {
             realm.create(LoginManagerRealm.self, value: value, update: true)
         }

@@ -42,8 +42,8 @@ class NetworkManager: NSObject {
         
         var headers: HTTPHeaders?
         let realm = try! Realm()
-        if let user = realm.object(ofType: LoginRealm.self, forPrimaryKey: loginKey) {
-            let token = user.token
+        if let loginManager = realm.object(ofType: LoginManagerRealm.self, forPrimaryKey: loginManagerRealmKey) {
+            let token = loginManager.token
             headers = ["token": token]
         }
 
@@ -153,7 +153,7 @@ extension NetworkManager {
                         printm("极光别名注册成功 iAlias=\(iAlias ?? "iAlias 为空")" )
                     }
                 }, seq: 000)
-                LoginManager.login(type: .wx)
+//                LoginManager.login(type: .wx)
             }
         }) { (error) in
             
@@ -165,13 +165,15 @@ extension NetworkManager {
                                    "type": "third",
                                    "app": "wechat"]
         NetworkManager.request(URLString: API.wechatlogin, paramet: paramet, finishedCallback: { (result) in
+            
             let json = JSON(result).dictionaryValue
-            let model = BaseModel.from(dictionary: json)
-            if NetworkResult.isCompleted(code: model.code) {
-                printm("第三方授权成功")
+            let model = LoginRealm.from(json: json)
+            if let code = model.owner?.code, NetworkResult.isCompleted(code: code) {
+                LoginManager.login(type: .wx, token: model.token)
             } else {
-                printm(model.msg)
+                printm(model.owner?.msg ?? "第三方授权失败")
             }
+            
         }) { (error) in
             printm("网络出现错误")
         }

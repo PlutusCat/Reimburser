@@ -16,7 +16,8 @@ class LoginRealm: Object {
     @objc dynamic var owner: BaseModel?
     @objc dynamic var token = ""
     @objc dynamic var success = ""
-    dynamic var data: UserData!
+    @objc dynamic var userInfo: UserInfo?
+    @objc dynamic var shareEnvelope: ShareEnvelope?
 
     override class func primaryKey() -> String? { return "id" }
     
@@ -30,7 +31,12 @@ class LoginRealm: Object {
             this.success = success
         }
         if let dataDict = json["data"]?.dictionaryValue, dataDict.isEmpty == false {
-            this.data = UserData.from(json: dataDict)
+            if let userInfo = dataDict["userInfo"]?.dictionaryValue {
+                this.userInfo = UserInfo.from(json: userInfo)
+            }
+            if let shareEnvelope = dataDict["shareEnvelope"]?.dictionaryValue {
+                this.shareEnvelope = ShareEnvelope.from(json: shareEnvelope)
+            }
             if let token = dataDict["Planet-Access-Token"]?.stringValue {
                 this.token = token
             }
@@ -39,27 +45,11 @@ class LoginRealm: Object {
     }
 }
 
-class UserData: Object {
-    dynamic var shareEnvelope: ShareEnvelope!
-    dynamic var userInfo: UserInfo!
-
-    class func from(json: [String : SwiftyJSON.JSON]) -> UserData {
-        let this = UserData()
-        if json.isEmpty {
-            return this
-        }
-        if let shareEnvelope = json["shareEnvelope"]?.dictionaryValue {
-            this.shareEnvelope = ShareEnvelope.from(json: shareEnvelope)
-        }
-        if let userInfo = json["userInfo"]?.dictionaryValue {
-            this.userInfo = UserInfo.from(json: userInfo)
-        }
-        return this
-    }
-}
-
 class ShareEnvelope: Object {
-    dynamic var envelopeOrder: EnvelopeOrder!
+    @objc dynamic var id = shareEnvelopeKey
+    @objc dynamic var envelopeOrder: EnvelopeOrder?
+    
+    override class func primaryKey() -> String? { return "id" }
     
     class func from(json: [String : SwiftyJSON.JSON]) -> ShareEnvelope {
         let this = ShareEnvelope()
@@ -74,7 +64,8 @@ class ShareEnvelope: Object {
 }
 
 class EnvelopeOrder: Object {
-    @objc dynamic var id = ""
+    @objc dynamic var id = envelopeOrderKey
+    @objc dynamic var uid = ""
     @objc dynamic var recordSn = ""
     @objc dynamic var fromUid = ""
     @objc dynamic var fromDisplay = ""
@@ -89,13 +80,15 @@ class EnvelopeOrder: Object {
     @objc dynamic var type = ""
     @objc dynamic var indirectUser = ""
 
+    override class func primaryKey() -> String? { return "id" }
+    
     class func from(json: [String : SwiftyJSON.JSON]) -> EnvelopeOrder {
         let this = EnvelopeOrder()
         if json.isEmpty {
             return this
         }
-        if let id = json["id"]?.stringValue {
-            this.id = id
+        if let uid = json["id"]?.stringValue {
+            this.uid = uid
         }
         if let recordSn = json["recordSn"]?.stringValue {
             this.recordSn = recordSn
@@ -141,7 +134,7 @@ class EnvelopeOrder: Object {
 }
 
 class UserInfo: Object {
-    @objc dynamic var id = ""
+    @objc dynamic var id = userInfoKey
     @objc dynamic var uid = ""
     @objc dynamic var account = ""
     @objc dynamic var phone = ""

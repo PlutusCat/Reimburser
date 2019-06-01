@@ -12,6 +12,13 @@ class PrimaryKey {}
 
 /// LoginRealm_ID
 var loginKey: String { return "LoginRealm_ID"}
+/// UserInfo_ID
+var userInfoKey: String { return "UserInfo_ID"}
+/// EnvelopeOrder_ID
+var envelopeOrderKey: String { return "EnvelopeOrder_ID"}
+/// ShareEnvelope
+var shareEnvelopeKey: String { return "ShareEnvelope_ID"}
+
 /// Videos_ID
 var videosKey: String { return "Videos_ID"}
 /// WXLoginRealm_ID
