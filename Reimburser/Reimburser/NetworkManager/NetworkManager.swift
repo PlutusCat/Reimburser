@@ -79,12 +79,6 @@ class NetworkManager: NSObject {
         return request
     }
     
-    func uploadIamge() {
-        
-        
-        
-
-    }
 }
 
 extension NetworkManager {

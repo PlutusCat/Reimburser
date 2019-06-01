@@ -13,14 +13,22 @@ import Alamofire
 import SwiftyJSON
 import RealmSwift
 
+private enum RequestState {
+    case getting
+    case getend
+    case moreing
+    case moreend
+}
+
 class VideoViewController: UICollectionViewController {
 
     private var records: List<Records>?
     private var animations = [Animation]()
     private var pageNumber = 1
-    private var pageSize = 4
+    private var pageSize = 10
     /// 有更多数据,可以加载更多
     private var isMore = false
+    private var requestState: RequestState?
     
     private lazy var headerView: VideoHeaderView = {
         let view = VideoHeaderView()
@@ -85,6 +93,7 @@ class VideoViewController: UICollectionViewController {
 
     private func getVideoList() {
         self.isMore = false
+        requestState = .getting
         let paramet: Parameters = ["current": 1,
                                    "size": pageSize,
                                    "label": []]
@@ -108,19 +117,29 @@ class VideoViewController: UICollectionViewController {
                     self.isMore = false
                 }
                 self.refreshControl.endRefreshing()
+                self.requestState = .getend
             }
         }) { (error) in
             self.refreshControl.endRefreshing()
             self.isMore = false
+            self.requestState = .getend
             printm("网络出现错误")
         }
     }
 
     private func getMoreVideoList() {
-        guard isMore else {
-            printm("没有更多了!!")
-            return
-        }
+
+//        switch requestState {
+//        case .getting?, .moreing?:
+//            return
+//        default:
+//            break
+//        }
+//        guard isMore else {
+//            printm("没有更多了!!")
+//            return
+//        }
+        requestState = .moreing
         let paramet: Parameters = ["current": pageNumber,
                                    "size": pageSize,
                                    "label": []]
@@ -149,9 +168,11 @@ class VideoViewController: UICollectionViewController {
                 } else {
                     printm("没有获取到更多 data 数据")
                 }
+                self.requestState = .moreend
             }
         }) { (error) in
             printm("网络出现错误")
+            self.requestState = .moreend
         }
     }
 

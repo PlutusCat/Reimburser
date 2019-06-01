@@ -46,8 +46,8 @@ extension API {
 class API {
     public class func main() -> String {
         #if DEBUG
-        return "http://4d832d19.ngrok.io/planet"
-//        return "http://www.taomibuy.cn/planet"
+//        return "http://4d832d19.ngrok.io/planet"
+        return "http://www.taomibuy.cn/planet"
         #else
         return "http://www.taomibuy.cn/planet"
         #endif
