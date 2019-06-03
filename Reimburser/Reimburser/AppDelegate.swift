@@ -119,7 +119,6 @@ extension AppDelegate: WXApiDelegate {
             if resp.isKind(of: SendAuthResp.self) {
                 let temp = resp as! SendAuthResp
                 if let code = temp.code {
-                    NetworkManager.getWechatToken(code: code)
                     NetworkManager.wechatlogin(code: code)
                 } else {
                     printm("获取微信授权失败")

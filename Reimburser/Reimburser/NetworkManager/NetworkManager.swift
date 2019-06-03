@@ -88,7 +88,6 @@ extension NetworkManager {
         
         let realm = try! Realm()
         LoginRealm.remove()
-        WXLoginRealm.remove()
         let value = ["id": loginManagerRealmKey, "type": 0] as [String : Any]
         try! realm.write {
             realm.create(LoginManagerRealm.self, value: value, update: true)
@@ -107,59 +106,10 @@ extension NetworkManager {
         }
     }
     
-    /// 微信接口 通过code获取access_token
-    ///
-    /// - Parameter code: 填写第一步获取的code参数
-    public class func getWechatToken(code: String) {
-        let appid = "appid="+AppSecret.wxAppid
-        let secret = "&secret="+AppSecret.wxAppSecret
-        let rCode = "&code="+code
-        let main = "https://api.weixin.qq.com/sns/oauth2/access_token?"
-        let url = main+appid+secret+rCode+"&grant_type=authorization_code"
-        
-        NetworkManager.request(URLString: url, addMainUrl: false, method: .get, finishedCallback: { (result) in
-            let json = JSON(result).dictionaryValue
-            DispatchQueue.main.async {
-                let realm = try! Realm()
-                let model = WXLoginRealm.from(json: json)
-                try! realm.write {
-                    realm.add(model, update: true)
-                }
-                NetworkManager.wxGetUserinfor(model: model)
-            }
-        }) { (error) in
-            
-        }
-    }
     
-    /// 微信获取用户信息接口
+    /// 用户登录
     ///
-    /// - Parameter model: WXLoginRealm
-    public class func wxGetUserinfor(model: WXLoginRealm) {
-        let main = "https://api.weixin.qq.com/sns/userinfo?"
-        let access_token = "access_token="+model.access_token
-        let openid = "&openid="+model.openid
-        let url = main+access_token+openid
-        NetworkManager.request(URLString: url, addMainUrl: false, method: .get, finishedCallback: { (result) in
-            let json = JSON(result).dictionaryValue
-            DispatchQueue.main.async {
-                let realm = try! Realm()
-                let model = WXUserInfoRealm.from(json: json)
-                try! realm.write {
-                    realm.add(model, update: true)
-                }
-                JPUSHService.setAlias(model.unionid, completion: { (iResCode, iAlias, _) in
-                    if iResCode == 0 {
-                        printm("极光别名注册成功 iAlias=\(iAlias ?? "iAlias 为空")" )
-                    }
-                }, seq: 000)
-//                LoginManager.login(type: .wx)
-            }
-        }) { (error) in
-            
-        }
-    }
-    
+    /// - Parameter code: 微信登陆返回的授权 code
     public class func wechatlogin(code: String) {
         let paramet: Parameters = ["code": code,
                                    "type": "third",
@@ -169,7 +119,18 @@ extension NetworkManager {
             let json = JSON(result).dictionaryValue
             let model = LoginRealm.from(json: json)
             if let code = model.owner?.code, NetworkResult.isCompleted(code: code) {
-                LoginManager.login(type: .wx, token: model.token)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    try! realm.write {
+                        realm.add(model, update: true)
+                    }
+                    LoginManager.login(type: .wx, token: model.token)
+                    JPUSHService.setAlias(model.userInfo?.uid, completion: { (iResCode, iAlias, _) in
+                        if iResCode == 0 {
+                            printm("极光别名注册成功 iAlias=\(iAlias ?? "iAlias 为空")" )
+                        }
+                    }, seq: 000)
+                }
             } else {
                 printm(model.owner?.msg ?? "第三方授权失败")
             }

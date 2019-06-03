@@ -37,17 +37,5 @@ class LoginManager: NSObject {
         NotificationCenter.default.post(name: NotificationNames.loginSuccess,
                                         object: type)
     }
-    
-    /// 获取当前用户登陆方式
-    open class var type: LoginType {
-        let realm = try! Realm()
-        if let user = realm.object(ofType: WXLoginRealm.self, forPrimaryKey: wxLoginKey), !user.openid.isEmpty {
-           return LoginType.wx
-        } else if let user = realm.object(ofType: LoginRealm.self, forPrimaryKey: loginKey), !user.token.isEmpty {
-            return LoginType.phone
-        } else {
-            return LoginType.unknow
-        }
-    }
-    
+ 
 }

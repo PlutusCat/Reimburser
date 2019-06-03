@@ -133,6 +133,24 @@ class EnvelopeOrder: Object {
     }
 }
 
+/**
+ {
+ "province" : "北京",
+ "gender" : 1,
+ "avatar" : "http:\/\/user-qmbx.oss-cn-beijing.aliyuncs.com\/583984753746444288",
+ "updateTime" : 1559303216000,
+ "country" : "中国",
+ "wechat" : "oY9ir1VfXxdPHdzMdEZCdbvtRT1c",
+ "nick" : "PlutusCat",
+ "insertTime" : 1559303216000,
+ "city" : "",
+ "role" : "0",
+ "id" : "583984755861565440",
+ "accountStatus" : 1,
+ "registrationType" : 3,
+ "account" : "oY9ir1VfXxdPHdzMdEZCdbvtRT1c"
+ }
+ */
 class UserInfo: Object {
     @objc dynamic var id = userInfoKey
     @objc dynamic var uid = ""
@@ -142,6 +160,13 @@ class UserInfo: Object {
     @objc dynamic var insertTime = ""
     @objc dynamic var updateTime = ""
     @objc dynamic var registrationType = ""
+    @objc dynamic var province = ""
+    @objc dynamic var gender = ""
+    @objc dynamic var avatar = ""
+    @objc dynamic var city = ""
+    @objc dynamic var country = ""
+    @objc dynamic var nick = ""
+    @objc dynamic var accountStatus = ""
     
     override class func primaryKey() -> String? { return "id" }
     
@@ -170,6 +195,27 @@ class UserInfo: Object {
         }
         if let registrationType = json["registrationType"]?.stringValue {
             this.registrationType = registrationType
+        }
+        if let province = json["province"]?.stringValue {
+            this.province = province
+        }
+        if let gender = json["gender"]?.stringValue {
+            this.gender = gender
+        }
+        if let avatar = json["avatar"]?.stringValue {
+            this.avatar = avatar
+        }
+        if let city = json["city"]?.stringValue {
+            this.city = city
+        }
+        if let country = json["country"]?.stringValue {
+            this.country = country
+        }
+        if let nick = json["nick"]?.stringValue {
+            this.nick = nick
+        }
+        if let accountStatus = json["accountStatus"]?.stringValue {
+            this.accountStatus = accountStatus
         }
         return this
     }

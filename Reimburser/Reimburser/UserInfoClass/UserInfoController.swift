@@ -48,9 +48,7 @@ class UserInfoController: BaseViewController {
         let realm = try! Realm()
         if let login = realm.object(ofType: LoginManagerRealm.self, forPrimaryKey: loginManagerRealmKey) {
             switch login.type {
-            case 1:
-                loadCellInWechat()
-            case 2:
+            case 1, 2:
                 loadCellInPhone()
             default:
                 printm("未知登陆状态")
@@ -71,9 +69,7 @@ class UserInfoController: BaseViewController {
     @objc private func reloadCell(_ sender: Notification) {
         let type = sender.object as! LoginType
         switch type {
-        case .wx:
-            loadCellInWechat()
-        case .phone:
+        case .wx, .phone:
             loadCellInPhone()
         default:
             printm("未知登陆状态")
@@ -81,28 +77,14 @@ class UserInfoController: BaseViewController {
         }
     }
     
-    private func loadCellInWechat() {
-        printm("微信登陆")
-        let realm = try! Realm()
-        if let user = realm.object(ofType: WXUserInfoRealm.self, forPrimaryKey: wxUserInfoKey) {
-            tableHeader.isUserInteractionEnabled = false
-            tableHeader.title.text = user.nickname
-            tableHeader.headerIcon.setImage(string: user.headimgurl)
-            
-            setModels[0] = [Setitem(icon: "icon_wallet-1", title: "我的钱包")]
-            userTableView.reloadData()
-            
-            LoginRealm.remove()
-
-        }
-    }
     private func loadCellInPhone() {
-        printm("手机号登陆")
         let realm = try! Realm()
         if let user = realm.object(ofType: LoginRealm.self, forPrimaryKey: loginKey) {
             tableHeader.isUserInteractionEnabled = false
-            tableHeader.title.text = user.userInfo?.phone
-            WXLoginRealm.remove()
+            tableHeader.title.text = user.userInfo?.nick
+            if let avatar = user.userInfo?.avatar {
+               tableHeader.headerIcon.setImage(string: avatar)
+            }
         }
     }
 
