@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RealmSwift
+import SwiftyJSON
+import Alamofire
 
 class WalletViewController: BaseViewController {
 
@@ -21,7 +24,10 @@ class WalletViewController: BaseViewController {
     @IBOutlet weak var amountBtn03: UIButton!
     @IBOutlet weak var cashBtn: UIButton!
     
+    /// 准备提现金额
     private var amount = ""
+    /// 现有余额
+    private var money = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "我的钱包"
@@ -38,15 +44,45 @@ class WalletViewController: BaseViewController {
         reloadCashTitle(sender)
     }
     @IBAction func cashAction(_ sender: UIButton) {
-        
+        getWalletWithdraw()
     }
     
     private func getWalletInfo() {
-//        let paramet: Parameters = ["account": "17793873123",
-//                                   "password": "121101mxf",
-//                                   "type": "pwd"]
+        
+        NetworkManager.request(URLString: API.walletInfo, finishedCallback: { (result) in
+            let json = JSON(result)
+            let model = WalletInfoRealm.from(json: json.dictionaryValue)
+            if let code = model.owner?.code, NetworkResult.isCompleted(code: code) {
+                DispatchQueue.main.async {
+                    self.money = model.money
+                    self.amountLabel.text = model.money
+                    self.compare(have: model.money, extract: "50")
+                }
+            } else {
+                printm(model.owner?.msg ?? "数据服务出现错误")
+            }
+        }) { (error) in
+            printm("网络请求出现错误")
+        }
     }
 
+    private func getWalletWithdraw() {
+        let paramet: Parameters = ["amount": Double(amount) ?? 0.00,
+                                   "app": "wechat"]
+        NetworkManager.request(URLString: API.walletWithdraw, paramet: paramet, finishedCallback: { (result) in
+            let json = JSON(result)
+            let model = BaseModel.from(dictionary: json.dictionaryValue)
+            if NetworkResult.isCompleted(code: model.code) {
+                /// 提现成功
+                printm(model.msg)
+            } else {
+                printm(model.msg)
+            }
+        }) { (error) in
+            printm("网络请求出现错误")
+        }
+    }
+    
     private func reloadCashTitle(_ sender: UIButton) {
         guard let amount = sender.titleLabel?.text else {
             printm("没有获取到提取金额参数")
@@ -59,9 +95,31 @@ class WalletViewController: BaseViewController {
         } else if amount.hasPrefix("￥150") {
             self.amount = "150"
         }
-        let title = "提取到微信 " + amount
-        cashBtn.setTitle(title, for: .normal)
+        
+        compare(have: money, extract: self.amount)
     }
+    
+    @discardableResult
+    private func compare(have: String, extract: String) -> Bool {
+        /// 现有
+        let newMoney = NSDecimalNumber(string: have)
+        /// 准备提取
+        let newAmount = NSDecimalNumber(string: extract)
+        let result = newMoney.compare(newAmount)
+        if result == .orderedAscending {
+            printm("您要提取的金额不满足，暂时无法提现")
+            cashBtn.isEnabled = false
+            cashBtn.setTitle("您的余额不足，暂时无法提现", for: .normal)
+            return false
+        } else {
+            printm("提现中...")
+            cashBtn.isEnabled = true
+            let title = "提取到微信 " + amount
+            cashBtn.setTitle(title, for: .normal)
+            return true
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         layoutSubViews()

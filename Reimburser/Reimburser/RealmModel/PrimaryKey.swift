@@ -21,6 +21,9 @@ var shareEnvelopeKey: String { return "ShareEnvelope_ID"}
 
 /// Videos_ID
 var videosKey: String { return "Videos_ID"}
+// WalletInfoRealm
+var walletKey: String { return "WalletInfoRealm_ID"}
+
 /// WXLoginRealm_ID
 var wxLoginKey: String { return "WXLoginRealm_ID"}
 /// WXUserInfoRealm

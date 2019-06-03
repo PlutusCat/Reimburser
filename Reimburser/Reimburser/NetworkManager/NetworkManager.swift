@@ -44,7 +44,7 @@ class NetworkManager: NSObject {
         let realm = try! Realm()
         if let loginManager = realm.object(ofType: LoginManagerRealm.self, forPrimaryKey: loginManagerRealmKey) {
             let token = loginManager.token
-            headers = ["token": token]
+            headers = ["Planet-Access-Token": token]
         }
 
         let request = sessionManager.request(url,

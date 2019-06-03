@@ -41,6 +41,11 @@ extension API {
     open class var credentialUpload: String {
         return "/api/consumption/credential/upload"
     }
+    /// 余额提现
+    open class var walletWithdraw: String {
+        return "/api/wallet/withdraw"
+    }
+
 }
 
 class API {

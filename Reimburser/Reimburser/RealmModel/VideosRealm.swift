@@ -16,6 +16,8 @@ class VideosRealm: Object {
     @objc dynamic var owner: BaseModel?
     @objc dynamic var data: VideosData?
     
+    override class func primaryKey() -> String? { return "id" }
+    
     class func from(json: [String : SwiftyJSON.JSON]) -> VideosRealm {
         let this = VideosRealm()
         if json.isEmpty {
