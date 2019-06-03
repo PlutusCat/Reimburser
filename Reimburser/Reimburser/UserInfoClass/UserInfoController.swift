@@ -85,6 +85,8 @@ class UserInfoController: BaseViewController {
             if let avatar = user.userInfo?.avatar {
                tableHeader.headerIcon.setImage(string: avatar)
             }
+            setModels[0] = [Setitem(icon: "icon_wallet-1", title: "我的钱包")]
+            userTableView.reloadData()
         }
     }
 
