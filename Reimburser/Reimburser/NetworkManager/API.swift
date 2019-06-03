@@ -39,7 +39,8 @@ extension API {
     }
     /// 上传发票
     open class var credentialUpload: String {
-        return "/api/consumption/credential/upload"
+        return main()+"/api/consumption/credential/upload"
+//        return "http://www.taomibuy.cn/planet/api/consumption/credential/upload"
     }
     /// 余额提现
     open class var walletWithdraw: String {

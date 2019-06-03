@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Photos
+import RealmSwift
 import AssetsPickerViewController
 
 class ReimbursViewController: BaseViewController {
@@ -63,6 +64,13 @@ class ReimbursViewController: BaseViewController {
         
         let device = "ios".data(using: .utf8)
         let createTime = time.data(using: .utf8)
+        
+        var headers: HTTPHeaders?
+        let realm = try! Realm()
+        if let loginManager = realm.object(ofType: LoginManagerRealm.self, forPrimaryKey: loginManagerRealmKey) {
+            let token = loginManager.token
+            headers = ["Planet-Access-Token": token]
+        }
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(imageData,
                                      withName: "file",
@@ -70,20 +78,20 @@ class ReimbursViewController: BaseViewController {
                                      mimeType: "image/jpeg")
             multipartFormData.append(createTime!, withName: "createTime")
             multipartFormData.append(device!, withName: "device")
-        }, to: API.credentialUpload, encodingCompletion: { (request) in
+        }, to: API.credentialUpload, headers: headers, encodingCompletion: { (request) in
             switch request {
             case .success(let request, _, _):
-                //   printm(streamFileURL!,request,streamingFromDisk)
                 request.uploadProgress(closure: { (progress) in
                     printm("progress =", progress)
                 })
+                request.validate()
                 request.responseJSON(completionHandler: { (DResponse) in
                     printm(DResponse.result)
                     if DResponse.result.isSuccess {
                         printm("上传成功！！！")
                     }
                     if DResponse.result.isFailure {
-                        printm("上传失败！！！")
+                        printm("上传失败！！！", DResponse.result.error ?? "未知错误")
                     }
                 })
                 break
