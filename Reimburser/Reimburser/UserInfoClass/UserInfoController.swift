@@ -13,7 +13,7 @@ import RxSwift
 
 class UserInfoController: BaseViewController {
 
-    private var setModels = [0: [],
+    private var setModels = [0: [Setitem(icon: "icon_wallet-1", title: "我的钱包")],
                              1: [Setitem(icon: "icon_repair", title: "设置")]]
     private lazy var userTableView: UserInfoTableView = {
         let tableview = UserInfoTableView(frame: .zero, style: .grouped)
@@ -85,8 +85,6 @@ class UserInfoController: BaseViewController {
             if let avatar = user.userInfo?.avatar {
                tableHeader.headerIcon.setImage(string: avatar)
             }
-            setModels[0] = [Setitem(icon: "icon_wallet-1", title: "我的钱包")]
-            userTableView.reloadData()
         }
     }
 

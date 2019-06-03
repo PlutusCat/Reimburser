@@ -25,7 +25,7 @@ class VideoViewController: UICollectionViewController {
     private var records: List<Records>?
     private var animations = [Animation]()
     private var pageNumber = 1
-    private var pageSize = 10
+    private var pageSize = 20
     /// 有更多数据,可以加载更多
     private var isMore = false
     private var requestState: RequestState?

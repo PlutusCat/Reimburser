@@ -62,6 +62,8 @@ class ReimbursViewController: BaseViewController {
     
     private func uploadImgfile(imageData: Data, time: String) {
         
+        view.makeToastActivity(.center)
+        
         let device = "ios".data(using: .utf8)
         let createTime = time.data(using: .utf8)
         
@@ -89,14 +91,17 @@ class ReimbursViewController: BaseViewController {
                     printm(DResponse.result)
                     if DResponse.result.isSuccess {
                         printm("上传成功！！！")
+                        self.view.toTitleToast(message: "上传完成")
                     }
                     if DResponse.result.isFailure {
                         printm("上传失败！！！", DResponse.result.error ?? "未知错误")
+                        self.view.showError(message: "上传失败，请稍候重试")
                     }
                 })
                 break
             case .failure(_):
                 printm("上传失败！！！")
+                self.view.showError(message: "上传失败，请稍候重试")
                 break
             }
         })
