@@ -65,6 +65,7 @@ class VideoViewController: UICollectionViewController {
         collectionView.refreshControl = refreshControl
         view.addSubview(headerView)
         getVideoList()
+        
     }
 
     @objc func refreshAction(_ sender: UIRefreshControl) {
@@ -97,7 +98,7 @@ class VideoViewController: UICollectionViewController {
         let paramet: Parameters = ["current": 1,
                                    "size": pageSize,
                                    "label": []]
-        NetworkManager.request(URLString: API.videoList, paramet: paramet, finishedCallback: { (result) in
+        NetworkManager.request(URLString: API.videoList, paramet: paramet, token: false, finishedCallback: { (result) in
             let json = JSON(result)
             let model = VideosRealm.from(json: json.dictionaryValue)
             DispatchQueue.main.async {
@@ -143,7 +144,7 @@ class VideoViewController: UICollectionViewController {
         let paramet: Parameters = ["current": pageNumber,
                                    "size": pageSize,
                                    "label": []]
-        NetworkManager.request(URLString: API.videoList, paramet: paramet, finishedCallback: { (result) in
+        NetworkManager.request(URLString: API.videoList, paramet: paramet, token: false, finishedCallback: { (result) in
             let json = JSON(result)
             let model = VideosRealm.from(json: json.dictionaryValue)
             DispatchQueue.main.async {
@@ -223,7 +224,6 @@ extension VideoViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         if let model = records?[indexPath.row] {
-            printm(model.url)
             let vc = VideoPlayerController()
             vc.videoUrl = model.url
             present(vc, animated: true, completion: nil)

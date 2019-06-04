@@ -66,6 +66,11 @@ class VideoCollectionViewCell: UICollectionViewCell {
         image.setImage(string: model.cover)
         title.text = model.title
         browseLabel.text = model.playVolume
+        if model.watched == "true" {
+            redEnvelope.isHidden = true
+        } else {
+            redEnvelope.isHidden = false
+        }
     }
 
     override func layoutSubviews() {

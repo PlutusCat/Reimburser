@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>若要选取照片，请允许【全民报销 APP】访问您的相册。</string>
-	<key>NSCameraUsageDescription</key>
-	<string>若要拍取照片，请允许【全民报销 APP】访问您的相机。</string>
 	<key>Application Category LSApplicationQueriesSchemes</key>
 	<array>
 		<string>weixin</string>
@@ -26,7 +22,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.0</string>
+	<string>1.04</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -41,7 +37,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20190530</string>
+	<string>2019060401</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -49,6 +45,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>若要拍取照片，请允许【全民报销 APP】访问您的相机。</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>若要选取照片，请允许【全民报销 APP】访问您的相册。</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

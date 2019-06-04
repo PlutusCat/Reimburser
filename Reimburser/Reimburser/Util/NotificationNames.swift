@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IJKMediaFramework
 
 class NotificationNames: NSObject {
     /// 登录成功
@@ -16,5 +17,12 @@ class NotificationNames: NSObject {
     /// 退出成功
     public class var logoutSuccess: NSNotification.Name {
         return NSNotification.Name(rawValue: "NotificationNames_logoutSuccess")
+    }
+}
+
+class IJKNames {
+    /// 播放完成
+    public class var didFinish: NSNotification.Name {
+        return NSNotification.Name.IJKMPMoviePlayerPlaybackDidFinish
     }
 }

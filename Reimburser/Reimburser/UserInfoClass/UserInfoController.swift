@@ -62,8 +62,6 @@ class UserInfoController: BaseViewController {
         tableHeader.isUserInteractionEnabled = true
         tableHeader.title.text = "请点此登陆"
         tableHeader.headerIcon.image = UIImage(named: "icon_Username")
-        setModels[0] = []
-        userTableView.reloadData()
     }
 
     @objc private func reloadCell(_ sender: Notification) {

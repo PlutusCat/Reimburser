@@ -52,18 +52,21 @@ class LoginViewController: BaseViewController {
 
 extension LoginViewController {
     private func login() {
-//        guard let user = uername.text else {
-//            printm("输入用户名")
-//            return
-//        }
-//        guard let password = password.text else {
-//            printm("输入密码")
-//            return
-//        }
-        let paramet: Parameters = ["account": "17793873123",
-                                   "password": "121101mxf",
+        guard let user = uername.text else {
+            printm("输入用户名")
+            view.makeToast("请输入用户名")
+            return
+        }
+        guard let password = password.text else {
+            printm("输入密码")
+            view.makeToast("请输入密码")
+            return
+        }
+        
+        let paramet: Parameters = ["account": user,
+                                   "password": password,
                                    "type": "pwd"]
-        NetworkManager.request(URLString: API.login, paramet: paramet, finishedCallback: { (result) in
+        NetworkManager.request(URLString: API.login, paramet: paramet, token: false, finishedCallback: { (result) in
             let json = JSON(result).dictionaryValue
             let model = LoginRealm.from(json: json)
             if let code = model.owner?.code, NetworkResult.isCompleted(code: code) {
@@ -82,10 +85,13 @@ extension LoginViewController {
                     })
                 }
             } else {
-                printm(model.owner?.msg ?? "数据出现错误")
+                let msg = model.owner?.msg ?? "数据出现错误"
+                printm(msg)
+                self.view.showError(message: msg)
             }
         }) { (error) in
             printm("网络请求出现错误")
+            self.view.showError(message: "网络请求出现错误")
         }
     }
 }

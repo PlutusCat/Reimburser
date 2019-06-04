@@ -74,6 +74,8 @@
 		6CCE176622A0C2C500CD9B1C /* Icon_Selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CCE175D22A0C2C500CD9B1C /* Icon_Selected@3x.png */; };
 		6CCE176822A4FD8A00CD9B1C /* WalletRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCE176722A4FD8A00CD9B1C /* WalletRealm.swift */; };
 		6CCE176A22A5185500CD9B1C /* Toast+DefaultConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCE176922A5185500CD9B1C /* Toast+DefaultConfig.swift */; };
+		6CCE176C22A64A9900CD9B1C /* VideoRedenvelopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCE176B22A64A9900CD9B1C /* VideoRedenvelopeView.swift */; };
+		6CCE176F22A64B6500CD9B1C /* Redenvelope.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CCE176E22A64B6500CD9B1C /* Redenvelope.xib */; };
 		6CF202C4229649B200A6EE30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF202C3229649B200A6EE30 /* AppDelegate.swift */; };
 		6CF202CB229649B300A6EE30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CF202CA229649B300A6EE30 /* Assets.xcassets */; };
 		6CF202CE229649B300A6EE30 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CF202CC229649B300A6EE30 /* LaunchScreen.storyboard */; };
@@ -195,6 +197,8 @@
 		6CCE175D22A0C2C500CD9B1C /* Icon_Selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon_Selected@3x.png"; sourceTree = "<group>"; };
 		6CCE176722A4FD8A00CD9B1C /* WalletRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletRealm.swift; sourceTree = "<group>"; };
 		6CCE176922A5185500CD9B1C /* Toast+DefaultConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Toast+DefaultConfig.swift"; sourceTree = "<group>"; };
+		6CCE176B22A64A9900CD9B1C /* VideoRedenvelopeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRedenvelopeView.swift; sourceTree = "<group>"; };
+		6CCE176E22A64B6500CD9B1C /* Redenvelope.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Redenvelope.xib; sourceTree = "<group>"; };
 		6CF202C0229649B200A6EE30 /* Reimburser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reimburser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CF202C3229649B200A6EE30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6CF202CA229649B300A6EE30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -309,7 +313,7 @@
 				6C33CED1229BD66600D68FBE /* VideoViewController.swift */,
 				41B5140C229D7245009C04FB /* VideoCollectionViewCell.swift */,
 				6CCE1708229E726E00CD9B1C /* VideoHeaderReusableView.swift */,
-				41B959E922A017A4002791D4 /* VideoPlayerController.swift */,
+				6CCE176D22A64AA500CD9B1C /* VideoPlayer */,
 			);
 			path = VideoClass;
 			sourceTree = "<group>";
@@ -401,6 +405,16 @@
 				6CCE175D22A0C2C500CD9B1C /* Icon_Selected@3x.png */,
 			);
 			path = imageAssets;
+			sourceTree = "<group>";
+		};
+		6CCE176D22A64AA500CD9B1C /* VideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				41B959E922A017A4002791D4 /* VideoPlayerController.swift */,
+				6CCE176B22A64A9900CD9B1C /* VideoRedenvelopeView.swift */,
+				6CCE176E22A64B6500CD9B1C /* Redenvelope.xib */,
+			);
+			path = VideoPlayer;
 			sourceTree = "<group>";
 		};
 		6CF202B7229649B200A6EE30 = {
@@ -689,6 +703,7 @@
 				6CCE174B229FDC9600CD9B1C /* CameraShutter_icon@3x.png in Resources */,
 				6CCE174D229FDC9600CD9B1C /* Complete_icon@3x.png in Resources */,
 				6CCE174A229FDC9600CD9B1C /* CameraShutter_icon_selected@3x.png in Resources */,
+				6CCE176F22A64B6500CD9B1C /* Redenvelope.xib in Resources */,
 				6CCE176522A0C2C500CD9B1C /* Icon_Selected@2x.png in Resources */,
 				6CCE1745229FDC9600CD9B1C /* Close_icon@3x.png in Resources */,
 				6CCE174F229FDC9600CD9B1C /* ToggleLens_icon@2x.png in Resources */,
@@ -855,6 +870,7 @@
 				6CF2031722964CF900A6EE30 /* MainTabBarController.swift in Sources */,
 				6CF2032422967C1200A6EE30 /* ToastView.swift in Sources */,
 				6CF20326229697CD00A6EE30 /* UIView+Extension.swift in Sources */,
+				6CCE176C22A64A9900CD9B1C /* VideoRedenvelopeView.swift in Sources */,
 				6C33CEDF229BE61700D68FBE /* ReimbursCollectionView.swift in Sources */,
 				6C33CEC5229BADC100D68FBE /* Realm+Manager.swift in Sources */,
 				6CF2031D22964E0000A6EE30 /* BaseViewController.swift in Sources */,
@@ -1039,6 +1055,7 @@
 				CODE_SIGN_ENTITLEMENTS = Reimburser/Reimburser.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G6QEWYGP8F;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1067,6 +1084,7 @@
 				CODE_SIGN_ENTITLEMENTS = Reimburser/Reimburser.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G6QEWYGP8F;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

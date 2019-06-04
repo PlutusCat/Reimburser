@@ -25,6 +25,7 @@ class VideoPlayerController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "enterfullscreen"), for: .normal)
         button.addTarget(self, action: #selector(enterFullScreen), for: .touchUpInside)
+        button.isHidden = true
         return button
     }()
     
@@ -38,6 +39,8 @@ class VideoPlayerController: UIViewController {
         view.backgroundColor = .black
         view.autoresizesSubviews = true
 
+        addPlayerNotice()
+        
         let options = IJKFFOptions.byDefault()
         let url = URL(string: videoUrl)
         let autoresize = UIView.AutoresizingMask.flexibleWidth.rawValue |
@@ -47,10 +50,17 @@ class VideoPlayerController: UIViewController {
         player.view.frame = view.bounds
         player.scalingMode = .aspectFit
         player.shouldAutoplay = true
+        player.setPauseInBackground(true)
+        
         
         view.addSubview(player.view)
         view.addSubview(goBack)
         view.addSubview(fullScreen)
+    }
+    
+    private func addPlayerNotice() {
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(playDidFinish), name: IJKNames.didFinish, object: player)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,4 +112,36 @@ class VideoPlayerController: UIViewController {
         return .portrait
     }
     
+}
+
+extension VideoPlayerController {
+    @objc func playDidFinish(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            let user = userInfo as! Dictionary<String, IJKMPMovieFinishReason>
+            let reason = user[IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey]
+            switch reason {
+            case .playbackEnded?:
+                printm("正常播放完成")
+                showRedenvelope()
+            case .playbackError?:
+                printm("播放出错！")
+            case .userExited?:
+                printm("用户主动退出")
+            default:
+                break
+            }
+        }
+    }
+    
+    private func showRedenvelope() {
+        let redenvelopeView = VideoRedenvelopeView()
+        view.addSubview(redenvelopeView)
+        redenvelopeView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        redenvelopeView.redenvelope.tapGestureBack = { [weak redenvelopeView] in
+            redenvelopeView?.removeFromSuperview()
+        }
+    }
 }

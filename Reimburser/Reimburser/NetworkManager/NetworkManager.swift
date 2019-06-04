@@ -31,6 +31,7 @@ class NetworkManager: NSObject {
                        addMainUrl: Bool = true,
                        method: HTTPMethod = .post,
                        paramet: Parameters? = nil,
+                       token: Bool = true,
                        finishedCallback :  @escaping (_ result: Any) -> Void,
                        errorback : @escaping (_ result: Any) -> Void) -> DataRequest {
         var url = ""
@@ -41,12 +42,13 @@ class NetworkManager: NSObject {
         }
         
         var headers: HTTPHeaders?
-        let realm = try! Realm()
-        if let loginManager = realm.object(ofType: LoginManagerRealm.self, forPrimaryKey: loginManagerRealmKey) {
-            let token = loginManager.token
-            headers = ["Planet-Access-Token": token]
+        if token {
+            let realm = try! Realm()
+            if let loginManager = realm.object(ofType: LoginManagerRealm.self, forPrimaryKey: loginManagerRealmKey) {
+                let token = loginManager.token
+                headers = ["Planet-Access-Token": token]
+            }
         }
-
         let request = sessionManager.request(url,
                                         method: method,
                                         parameters: paramet,
@@ -114,7 +116,7 @@ extension NetworkManager {
         let paramet: Parameters = ["code": code,
                                    "type": "third",
                                    "app": "wechat"]
-        NetworkManager.request(URLString: API.wechatlogin, paramet: paramet, finishedCallback: { (result) in
+        NetworkManager.request(URLString: API.wechatlogin, paramet: paramet, token: false, finishedCallback: { (result) in
             
             let json = JSON(result).dictionaryValue
             let model = LoginRealm.from(json: json)
@@ -132,11 +134,14 @@ extension NetworkManager {
                     }, seq: 000)
                 }
             } else {
-                printm(model.owner?.msg ?? "第三方授权失败")
+                let msg = model.owner?.msg ?? "第三方授权失败"
+                printm(msg)
+                UIView.showOnWindow(message: msg)
             }
             
         }) { (error) in
             printm("网络出现错误")
+            UIView.showOnWindow(message: "网络出现错误")
         }
     }
     

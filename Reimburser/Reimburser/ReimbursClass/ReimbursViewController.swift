@@ -27,7 +27,7 @@ class ReimbursViewController: BaseViewController {
         Reimbur(imgName: "icon_express", title: "快递"),
         Reimbur(imgName: "icon_P", title: "停车"),
         Reimbur(imgName: "icon_cost", title: "话费"),
-        Reimbur(imgName: "icon_cost", title: "其他")
+        Reimbur(imgName: "icon_other", title: "其他")
     ]
 
     private lazy var headerView: ReimbursHeader = {
@@ -91,7 +91,7 @@ class ReimbursViewController: BaseViewController {
                     printm(DResponse.result)
                     if DResponse.result.isSuccess {
                         printm("上传成功！！！")
-                        self.view.toTitleToast(message: "上传完成")
+                        self.view.toTitleToast(message: "上传完成,稍后会有通知提醒您红包获取情况")
                     }
                     if DResponse.result.isFailure {
                         printm("上传失败！！！", DResponse.result.error ?? "未知错误")

@@ -46,14 +46,16 @@ extension API {
     open class var walletWithdraw: String {
         return "/api/wallet/withdraw"
     }
-
+    /// 生成看完视频红包接口
+    open class var videoRedenvelope: String {
+        return "/api/envelope/video/send"
+    }
 }
 
 class API {
     public class func main() -> String {
         #if DEBUG
-//        return "http://4d832d19.ngrok.io/planet"
-        return "http://a2adf2e3.ngrok.io/planet"
+        return "http://www.taomibuy.cn/planet"
         #else
         return "http://www.taomibuy.cn/planet"
         #endif

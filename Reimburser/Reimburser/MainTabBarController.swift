@@ -26,7 +26,7 @@ class MainTabBarController: UITabBarController {
                           barIcon: "item02",
                           barTitle: "全民报销")
         addViewController(vc: UserInfoController(),
-                          barIcon: "item02",
+                          barIcon: "item03",
                           barTitle: "我的")
     }
 
