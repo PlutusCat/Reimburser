@@ -39,8 +39,6 @@ class VideoPlayerController: UIViewController {
         view.backgroundColor = .black
         view.autoresizesSubviews = true
 
-        addPlayerNotice()
-        
         let options = IJKFFOptions.byDefault()
         let url = URL(string: videoUrl)
         let autoresize = UIView.AutoresizingMask.flexibleWidth.rawValue |
@@ -52,10 +50,11 @@ class VideoPlayerController: UIViewController {
         player.shouldAutoplay = true
         player.setPauseInBackground(true)
         
-        
         view.addSubview(player.view)
         view.addSubview(goBack)
         view.addSubview(fullScreen)
+        
+        addPlayerNotice()
     }
     
     private func addPlayerNotice() {
@@ -112,20 +111,22 @@ class VideoPlayerController: UIViewController {
         return .portrait
     }
     
+    deinit {
+        
+    }
 }
 
 extension VideoPlayerController {
     @objc func playDidFinish(_ notification: Notification) {
         if let userInfo = notification.userInfo {
-            let user = userInfo as! Dictionary<String, IJKMPMovieFinishReason>
-            let reason = user[IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey]
+            let reason = userInfo[IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey] as! Int
             switch reason {
-            case .playbackEnded?:
+            case 0:
                 printm("正常播放完成")
                 showRedenvelope()
-            case .playbackError?:
+            case 1:
                 printm("播放出错！")
-            case .userExited?:
+            case 2:
                 printm("用户主动退出")
             default:
                 break
@@ -134,14 +135,15 @@ extension VideoPlayerController {
     }
     
     private func showRedenvelope() {
+        
         let redenvelopeView = VideoRedenvelopeView()
         view.addSubview(redenvelopeView)
         redenvelopeView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
         
-        redenvelopeView.redenvelope.tapGestureBack = { [weak redenvelopeView] in
-            redenvelopeView?.removeFromSuperview()
+        redenvelopeView.redenvelope.tapGestureBack = { [weak self] in
+            self?.dismiss(animated: true)
         }
     }
 }
