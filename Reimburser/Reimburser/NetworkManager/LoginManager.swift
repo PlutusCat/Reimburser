@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Alamofire
 
 public enum LoginType: Int {
     case unknow = 0
@@ -36,6 +37,12 @@ class LoginManager: NSObject {
         }
         NotificationCenter.default.post(name: NotificationNames.loginSuccess,
                                         object: type)
+        
+        /// 下载量统计
+        let paramet: Parameters = ["tag": "Apple Store"]
+        NetworkManager.request(URLString: API.freeTag,
+                               paramet: paramet,
+                               finishedCallback: { (result) in }) { (error) in }
     }
  
 }

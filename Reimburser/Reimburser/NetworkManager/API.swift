@@ -50,6 +50,10 @@ extension API {
     open class var videoRedenvelope: String {
         return "/api/envelope/video/send"
     }
+    /// 下载量统计
+    open class var freeTag: String {
+        return "/api/free/tag"
+    }
 }
 
 class API {

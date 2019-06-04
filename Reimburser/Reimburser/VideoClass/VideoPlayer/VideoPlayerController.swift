@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 import IJKMediaFramework
 
 class VideoPlayerController: UIViewController {
@@ -136,14 +138,27 @@ extension VideoPlayerController {
     
     private func showRedenvelope() {
         
-        let redenvelopeView = VideoRedenvelopeView()
-        view.addSubview(redenvelopeView)
-        redenvelopeView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
+        let paramet: Parameters = ["tag": "Apple Store"]
         
-        redenvelopeView.redenvelope.tapGestureBack = { [weak self] in
-            self?.dismiss(animated: true)
+        NetworkManager.request(URLString: API.videoRedenvelope, paramet: paramet, finishedCallback: { (result) in
+            let json = JSON(result).dictionary
+            let model = VideoEnvelopeOrderRealm.from(json: json!)
+            if let code = model.owner?.code, NetworkResult.isCompleted(code: code) {
+                DispatchQueue.main.async {
+                    let money = model.money
+                    let redenvelopeView = VideoRedenvelopeView()
+                    redenvelopeView.redenvelope.amountLabel.text = money
+                    self.view.addSubview(redenvelopeView)
+                    redenvelopeView.snp.makeConstraints { (make) in
+                        make.edges.equalToSuperview()
+                    }
+                    redenvelopeView.redenvelope.tapGestureBack = { [weak self] in
+                        self?.dismiss(animated: true)
+                    }
+                }
+            }
+        }) { (error) in
+            
         }
     }
 }

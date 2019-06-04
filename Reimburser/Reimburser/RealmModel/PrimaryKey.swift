@@ -24,6 +24,9 @@ var videosKey: String { return "Videos_ID"}
 // WalletInfoRealm
 var walletKey: String { return "WalletInfoRealm_ID"}
 
+// EnvelopeOrderRealm
+var videoEnvelopeOrderKey: String { return "VideoEnvelopeOrderRealm_ID"}
+
 /// WXLoginRealm_ID
 var wxLoginKey: String { return "WXLoginRealm_ID"}
 /// WXUserInfoRealm
