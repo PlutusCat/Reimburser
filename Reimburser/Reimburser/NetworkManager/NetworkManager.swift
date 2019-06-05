@@ -49,16 +49,26 @@ class NetworkManager: NSObject {
                 headers = ["Planet-Access-Token": token]
             }
         }
+
+        var uparamet: Parameters!
+        let version = "1.0.9"
+        if let paramet = paramet {
+            uparamet = paramet
+            uparamet["version"] = version
+        } else {
+            uparamet = ["version": version]
+        }
+
         let request = sessionManager.request(url,
                                         method: method,
-                                        parameters: paramet,
+                                        parameters: uparamet,
                                         encoding: JSONEncoding.default,
                                         headers: headers)
             .responseJSON { (response) in
                 printm("--- 请求的地址 ---")
                 printm(url)
                 printm("--- 请求的JSON ---")
-                printm(JSON(paramet as Any))
+                printm(JSON(uparamet as Any))
                 guard let result = response.result.value else {
                     errorback(response.result.error!)
                     printm("--- 请求出错 ---")
