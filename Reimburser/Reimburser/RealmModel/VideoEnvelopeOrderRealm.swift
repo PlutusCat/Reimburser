@@ -37,7 +37,7 @@ class VideoEnvelopeOrderRealm: Object {
         }
         this.owner = BaseModel.from(dictionary: json)
         if let dataDict = json["data"]?.dictionaryValue, dataDict.isEmpty == false {
-            if let envelopeOrder = json["envelopeOrder"]?.dictionary {
+            if let envelopeOrder = dataDict["envelopeOrder"]?.dictionaryValue {
                 if let uid = envelopeOrder["id"]?.stringValue {
                     this.uid = uid
                 }
