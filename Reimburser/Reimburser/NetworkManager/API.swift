@@ -59,7 +59,7 @@ extension API {
 class API {
     public class func main() -> String {
         #if DEBUG
-        return "http://www.taomibuy.cn/planet"
+        return "http://120.55.41.150:30001/planet/"
         #else
         return "http://www.taomibuy.cn/planet"
         #endif
