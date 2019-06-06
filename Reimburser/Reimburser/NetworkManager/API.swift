@@ -61,7 +61,8 @@ class API {
         #if DEBUG
         return "http://120.55.41.150:30001/planet/"
         #else
-        return "http://www.taomibuy.cn/planet"
+        return "http://120.55.41.150:30001/planet/"
+//        return "http://www.taomibuy.cn/planet"
         #endif
     }
 }
