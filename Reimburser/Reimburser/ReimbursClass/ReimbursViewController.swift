@@ -179,7 +179,11 @@ extension ReimbursViewController: AssetsPickerViewControllerDelegate {
         if let asset = assets.first {
             let imageManager = PHCachingImageManager()
             imageManager.requestImageData(for: asset, options: nil) { (imgData, info, orientation, nil) in
-                let date = Date().milliStamp
+                printm("localIdentifier = ", asset.localIdentifier)
+                var date = ""
+                if let creationDate = asset.creationDate {
+                    date = creationDate.milliStamp
+                }
                 if let imgData = imgData {
                     self.uploadImgfile(imageData: imgData, time: date)
                 }
