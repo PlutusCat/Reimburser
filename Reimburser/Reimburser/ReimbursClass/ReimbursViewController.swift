@@ -15,21 +15,23 @@ import AssetsPickerViewController
 class ReimbursViewController: BaseViewController {
 
     private var localmodel = [
-        Reimbur(imgName: "icon_rent", title: "房租"),
-        Reimbur(imgName: "icon_hydropower", title: "水电"),
-        Reimbur(imgName: "icon_shoping", title: "网购"),
-        Reimbur(imgName: "icon_market", title: "超市"),
-        Reimbur(imgName: "icon_food", title: "吃饭"),
-        Reimbur(imgName: "icon_amusement", title: "娱乐"),
-        Reimbur(imgName: "icon_bus", title: "公交"),
-        Reimbur(imgName: "icon_subway", title: "地铁"),
-        Reimbur(imgName: "icon_Netcar", title: "网约车"),
-        Reimbur(imgName: "icon_express", title: "快递"),
-        Reimbur(imgName: "icon_P", title: "停车"),
-        Reimbur(imgName: "icon_cost", title: "话费"),
-        Reimbur(imgName: "icon_other", title: "其他")
+        Reimbur(imgName: "icon_rent", title: "房租", ticketType: "102"),
+        Reimbur(imgName: "icon_hydropower", title: "水电", ticketType: "101"),
+        Reimbur(imgName: "icon_shoping", title: "网购", ticketType: ""),
+        Reimbur(imgName: "icon_market", title: "超市", ticketType: ""),
+        Reimbur(imgName: "icon_food", title: "吃饭", ticketType: ""),
+        Reimbur(imgName: "icon_amusement", title: "娱乐", ticketType: ""),
+        Reimbur(imgName: "icon_bus", title: "公交", ticketType: "103"),
+        Reimbur(imgName: "icon_subway", title: "地铁", ticketType: "103"),
+        Reimbur(imgName: "icon_Netcar", title: "网约车", ticketType: ""),
+        Reimbur(imgName: "icon_express", title: "快递", ticketType: "104"),
+        Reimbur(imgName: "icon_P", title: "停车", ticketType: "109"),
+        Reimbur(imgName: "icon_cost", title: "话费", ticketType: "108"),
+        Reimbur(imgName: "icon_other", title: "其他", ticketType: "123")
     ]
 
+    private var model: Reimbur?
+    
     private lazy var headerView: ReimbursHeader = {
         let view = ReimbursHeader()
         return view
@@ -66,6 +68,10 @@ class ReimbursViewController: BaseViewController {
         
         let device = "ios".data(using: .utf8)
         let createTime = time.data(using: .utf8)
+        var ticketType = "".data(using: .utf8)
+        if let type = model?.ticketType {
+            ticketType = type.data(using: .utf8)
+        }
         
         var headers: HTTPHeaders?
         let realm = try! Realm()
@@ -80,6 +86,7 @@ class ReimbursViewController: BaseViewController {
                                      mimeType: "image/jpeg")
             multipartFormData.append(createTime!, withName: "createTime")
             multipartFormData.append(device!, withName: "device")
+            multipartFormData.append(ticketType!, withName: "ticketType")
         }, to: API.credentialUpload, headers: headers, encodingCompletion: { (request) in
             switch request {
             case .success(let request, _, _):
@@ -122,38 +129,18 @@ extension ReimbursViewController: UICollectionViewDelegate, UICollectionViewData
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+        printm("indexPath.row =", indexPath.row)
+        model = localmodel[indexPath.row]
+
         UIAlertController().actionSheet("上传发票照片", titles: ["拍照", "相册"], destructives: nil, callBack: { (index) in
             switch index {
             case 0:
                 let vc = CameraViewController.viewController { (image) in
-                    
                     let date = Date().milliStamp
-                    
                     if let imageData = image.jpegData(compressionQuality: 1.0) {
                         self.uploadImgfile(imageData: imageData, time: date)
                     }
-                        /// 保存当前获取到的图片到沙盒 临时文件存储路径 tmp/
-//                    let fullName = date+".jpeg"
-//                        let tmp = NSTemporaryDirectory()
-//                        let fullPath = tmp.appending(fullName)
-//                        try? imageData.write(to: URL(fileURLWithPath: fullPath))
-//                        let fileManager = FileManager.default
-//                        let exist = fileManager.fileExists(atPath: fullPath)
-//                        if exist {
-//                            Alamofire.upload(URL(fileURLWithPath: fullPath), to: API.credentialUpload).validate().responseData { (DDataRequest) in
-//                                if DDataRequest.result.isSuccess {
-//                                    printm(String.init(data: DDataRequest.data!, encoding: String.Encoding.utf8)!)
-//                                }
-//                                if DDataRequest.result.isFailure {
-//                                    printm("上传失败！！！")
-//                                }
-//                            }
-//
-//                        } else {
-//
-//                        }
-                        
-//                    }
                 }
                 self.present(vc, animated: true) {
                     printm("**** 弹出相机界面 ****")
@@ -179,7 +166,11 @@ extension ReimbursViewController: AssetsPickerViewControllerDelegate {
         if let asset = assets.first {
             let imageManager = PHCachingImageManager()
             imageManager.requestImageData(for: asset, options: nil) { (imgData, info, orientation, nil) in
-                let date = Date().milliStamp
+                printm("localIdentifier = ", asset.localIdentifier)
+                var date = ""
+                if let creationDate = asset.creationDate {
+                    date = creationDate.milliStamp
+                }
                 if let imgData = imgData {
                     self.uploadImgfile(imageData: imgData, time: date)
                 }

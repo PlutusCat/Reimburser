@@ -34,7 +34,8 @@ class ImageCollectionController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        automaticallyAdjustsScrollViewInsets = true
+        
+//        automaticallyAdjustsScrollViewInsets = true
 
         let rightItem = UIBarButtonItem(title: "取消", style: .plain,
                                         target: self, action: #selector(rightItemAction))
@@ -70,6 +71,7 @@ class ImageCollectionController: UIViewController {
         let frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: barH, right: 0)
+        collectionView.contentInsetAdjustmentBehavior = .automatic
         collectionView.register(ImageCollectionCell.self, forCellWithReuseIdentifier: "ImageCollectionCell")
         collectionView.backgroundColor = .white
         collectionView.allowsMultipleSelection = true

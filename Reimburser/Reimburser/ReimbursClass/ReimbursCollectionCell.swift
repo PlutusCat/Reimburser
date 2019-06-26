@@ -11,9 +11,13 @@ import UIKit
 class Reimbur {
     var imageName: String
     var title: String
-    init(imgName: String, title: String) {
+    var ticketType: String
+    init(imgName: String,
+         title: String,
+         ticketType: String) {
         self.imageName = imgName
         self.title = title
+        self.ticketType = ticketType
     }
 }
 class ReimbursCollectionCell: UICollectionViewCell {
